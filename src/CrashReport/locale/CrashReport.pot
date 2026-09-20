@@ -1,0 +1,335 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR OpenATV
+# This file is distributed under the same license as the CrashReport package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: CrashReport\n"
+"Report-Msgid-Bugs-To: https://github.com/openatv/enigma2-plugin-extensions-crashreport/issues\n"
+"POT-Creation-Date: 2026-09-20 04:25+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../plugin.py:231
+#, python-format
+msgid ""
+"%s\n"
+"\n"
+"Sign in or register and confirm your email. Then describe the problem and submit the report within 48 hours. The box model is supplied automatically."
+msgstr ""
+
+#: ../diagnostics.py:36
+msgid "A line exceeds the privacy filter limit (16 KiB). The file was not uploaded."
+msgstr ""
+
+#: ../plugin.py:161
+msgid "Additional logs"
+msgstr ""
+
+#: ../plugin.py:160
+msgid "Box, image and installed plugins"
+msgstr ""
+
+#: ../plugin.py:84
+msgid "Cancel"
+msgstr ""
+
+#: ../plugin.py:120
+msgid "Close"
+msgstr ""
+
+#: ../plugin.py:223
+msgid "Complete Your Crash Report"
+msgstr ""
+
+#: ../plugin.py:75
+msgid "Crash Report Settings"
+msgstr ""
+
+#: ../plugin.py:356 ../plugin.py:382 ../plugin.py:401
+msgid "Crash Reports"
+msgstr ""
+
+#: ../plugin.py:120 ../plugin.py:141
+msgid "Delete crash log"
+msgstr ""
+
+#: ../plugin.py:201
+msgid "Deleting the selected local crash log..."
+msgstr ""
+
+#: ../plugin.py:164
+msgid "Diagnostic archive:"
+msgstr ""
+
+#: ../plugin.py:160
+msgid "Enigma2 configuration files"
+msgstr ""
+
+#: ../plugin.py:352
+msgid "Enigma2 has created a new crash log. Would you like to report the problem now? No data will be sent without your confirmation."
+msgstr ""
+
+#: ../client.py:36
+#, python-format
+msgid "Enter a valid server URL without control characters."
+msgstr ""
+
+#: ../client.py:43
+#, python-format
+msgid "Enter the server origin only, for example https://reports.example.org."
+msgstr ""
+
+#: ../plugin.py:142
+msgid "GREEN sends the selected crash log. BLUE deletes only the selected local crash log after confirmation. Uploaded reports are not deleted."
+msgstr ""
+
+#: ../client.py:51
+#, python-format
+msgid "HTTPS is required. HTTP is only allowed for an explicitly enabled LAN test using a private IP address."
+msgstr ""
+
+#: ../plugin.py:78
+msgid "Include Enigma2 configuration files"
+msgstr ""
+
+#: ../plugin.py:81
+msgid "Include additional logs from temporary and log folders"
+msgstr ""
+
+#: ../plugin.py:77
+msgid "Include box, image and installed plugin information"
+msgstr ""
+
+#: ../plugin.py:79
+msgid "Include kernel and system logs"
+msgstr ""
+
+#: ../plugin.py:80
+msgid "Include the matching debug log"
+msgstr ""
+
+#: ../plugin.py:161
+msgid "Kernel and system logs"
+msgstr ""
+
+#: ../plugin.py:44
+msgid "Known usernames, passwords, API keys, tokens and URLs are removed before upload. Key files and known softcam files are excluded. Other personal information may remain. Reports are private and accessible to you and the OpenATV support team."
+msgstr ""
+
+#: ../client.py:177
+#, python-format
+msgid "Logs and diagnostics exceed 16 MiB. Disable additional logs or configuration collection and try again. Nothing was uploaded."
+msgstr ""
+
+#: ../plugin.py:119
+msgid "Looking for crash logs..."
+msgstr ""
+
+#: ../plugin.py:142
+msgid "No crash logs found."
+msgstr ""
+
+#: ../plugin.py:234
+msgid "OK / EXIT: Close"
+msgstr ""
+
+#: ../plugin.py:82
+msgid "Offer reporting after a crash"
+msgstr ""
+
+#: ../client.py:107
+#, python-format
+msgid "Only a selected crash log from the configured log folders can be deleted."
+msgstr ""
+
+#: ../plugin.py:113
+msgid "OpenATV Crash Reports"
+msgstr ""
+
+#: ../plugin.py:194
+#, python-format
+msgid ""
+"Permanently delete this crash log from the receiver?\n"
+"\n"
+"%s\n"
+"\n"
+"This cannot be undone. Other logs and uploaded reports are kept."
+msgstr ""
+
+#: ../plugin.py:233
+msgid "Preparing QR code..."
+msgstr ""
+
+#: ../plugin.py:172
+msgid "Preparing and sending the report in the background. Please wait..."
+msgstr ""
+
+#: ../plugin.py:252
+msgid "QR code unavailable. Please enter the number manually."
+msgstr ""
+
+#: ../plugin.py:85
+msgid "Save"
+msgstr ""
+
+#: ../plugin.py:229
+msgid "Scan the QR code, or enter the tracking number on the website."
+msgstr ""
+
+#: ../client.py:160
+#, python-format
+msgid "Select a crash log first."
+msgstr ""
+
+#: ../plugin.py:117
+msgid "Select a crash log to send. Then scan the QR code or enter the tracking number on a phone or PC to complete your report."
+msgstr ""
+
+#: ../plugin.py:401
+msgid "Send crash logs and track a support report."
+msgstr ""
+
+#: ../plugin.py:120
+msgid "Send logs"
+msgstr ""
+
+#: ../plugin.py:162
+#, python-format
+msgid ""
+"Send these logs to OpenATV?\n"
+"\n"
+"%s"
+msgstr ""
+
+#: ../plugin.py:120
+msgid "Settings"
+msgstr ""
+
+#: ../client.py:133 ../client.py:168
+#, python-format
+msgid "The complete logs exceed 16 MiB. No log was truncated or uploaded."
+msgstr ""
+
+#: ../client.py:183
+#, python-format
+msgid "The compressed logs exceed 4 MiB. No log was truncated or uploaded."
+msgstr ""
+
+#: ../client.py:114
+#, python-format
+msgid "The crash log has changed. Reopen the list and select it again. Nothing was deleted."
+msgstr ""
+
+#: ../client.py:137
+#, python-format
+msgid "The log changed while it was being read. Please try again."
+msgstr ""
+
+#: ../qr.py:15
+msgid "The report URL is too long for the QR display."
+msgstr ""
+
+#: ../client.py:180
+#, python-format
+msgid "The report exceeds the server size limit. Nothing was uploaded."
+msgstr ""
+
+#: ../client.py:158
+#, python-format
+msgid "The report server needs the diagnostics update. No report was uploaded."
+msgstr ""
+
+#: ../client.py:140
+#, python-format
+msgid "The selected file contains binary data, not a text log."
+msgstr ""
+
+#: ../client.py:131
+#, python-format
+msgid "The selected log is not a regular, non-empty file."
+msgstr ""
+
+#: ../client.py:41
+#, python-format
+msgid "The server URL has an invalid address or port."
+msgstr ""
+
+#: ../client.py:31
+#, python-format
+msgid "The server redirected the upload. Check the configured server URL."
+msgstr ""
+
+#: ../client.py:197
+#, python-format
+msgid "The server returned an invalid tracking number or model."
+msgstr ""
+
+#: ../plugin.py:248
+msgid "The tracking number is filled in automatically."
+msgstr ""
+
+#: ../plugin.py:205
+#, python-format
+msgid ""
+"Tracking: %s\n"
+"%s\n"
+"Sign in and complete the report within 48 hours."
+msgstr ""
+
+#: ../plugin.py:165
+msgid "Unsubmitted uploads expire after 48 hours. Your local files are kept."
+msgstr ""
+
+#: ../client.py:195
+#, python-format
+msgid "Upload failed. The local logs have not been deleted. %s"
+msgstr ""
+
+#: ../client.py:193
+#, python-format
+msgid "Upload rejected (HTTP %d). %s"
+msgstr ""
+
+#: ../diagnostics.py:64
+msgid "binary data omitted"
+msgstr ""
+
+#: ../diagnostics.py:123
+msgid "command failed; output omitted"
+msgstr ""
+
+#: ../diagnostics.py:121
+msgid "command output exceeds limit; omitted, not truncated"
+msgstr ""
+
+#: ../diagnostics.py:113
+msgid "command timed out; output omitted"
+msgstr ""
+
+#: ../diagnostics.py:96
+msgid "file changed during snapshot; omitted"
+msgstr ""
+
+#: ../diagnostics.py:91 ../diagnostics.py:94
+msgid "file exceeds diagnostic size limit; omitted, not truncated"
+msgstr ""
+
+#: ../diagnostics.py:89
+msgid "non-regular file omitted"
+msgstr ""
+
+#: ../diagnostics.py:84
+msgid "symbolic link omitted"
+msgstr ""
+
+#: ../client.py:156
+msgid "unsupported schema"
+msgstr ""

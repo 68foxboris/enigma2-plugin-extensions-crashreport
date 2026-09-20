@@ -1,0 +1,54 @@
+name: Create Tag and Release on Version Change
+
+on:
+  push:
+    paths:
+      - src/CrashReport/__init__.py
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: autotag-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  tag_and_release:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Read version from file
+        id: get_version
+        run: |
+          VERSION=$(python3 CI/version.py)
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+      - name: Check if tag already exists
+        id: check_tag
+        env:
+          VERSION: ${{ steps.get_version.outputs.version }}
+        run: |
+          if git show-ref --verify --quiet "refs/tags/v$VERSION"; then
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Create and push tag
+        if: steps.check_tag.outputs.skip != 'true'
+        env:
+          VERSION: ${{ steps.get_version.outputs.version }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git tag "v$VERSION"
+          git push origin "refs/tags/v$VERSION"
+      - name: Create GitHub Release
+        if: steps.check_tag.outputs.skip != 'true'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.get_version.outputs.version }}
+          name: Release v${{ steps.get_version.outputs.version }}
+          generate_release_notes: true

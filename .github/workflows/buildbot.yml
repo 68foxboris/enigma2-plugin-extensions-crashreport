@@ -1,0 +1,32 @@
+name: buildbot
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: buildbot-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.14'
+      - name: Install CI tools
+        run: |
+          sudo apt-get -q update
+          sudo apt-get install -y dos2unix gettext
+          python -m pip install autopep8
+      - name: Update formatting and translations
+        run: bash CI/build.sh
