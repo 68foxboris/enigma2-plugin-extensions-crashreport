@@ -7,6 +7,6 @@ setup(name='enigma2-plugin-extensions-crashreport',
        description='OpenATV private crash reports and receiver diagnostics',
        package_dir={pkg: 'CrashReport'},
        packages=[pkg],
-       package_data={plugin: ['*.png', 'locale/*/LC_MESSAGES/*.mo']},
+       package_data={pkg: ['*.png', 'locale/*/LC_MESSAGES/*.mo']},
        cmdclass=setup_translate.cmdclass,  # for translation
       )

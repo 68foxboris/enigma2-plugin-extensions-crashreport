@@ -36,7 +36,7 @@ class build_trans(Command):
 
 
 class build(_build):
-	sub_commands = _build.sub_commands + [('build_trans', None)]
+	sub_commands = [('build_trans', None)] + _build.sub_commands
 
 	def run(self):
 		_build.run(self)
