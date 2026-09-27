@@ -2,7 +2,7 @@ name: compile
 
 on:
   push:
-    branches: [ main ]
+    branches: [ master ]
   pull_request:
     branches:
       - "*"
@@ -12,7 +12,7 @@ permissions:
 
 jobs:
   build:
-    uses: oe-alliance-plugins/.github/.github/workflows/compile.yml@main
+    uses: openatv/.github/.github/workflows/compile.yml@main
     # with:
     #   path: src
     #   python-versions: '["3.14"]'

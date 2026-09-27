@@ -2,7 +2,7 @@ name: buildbot
 
 on:
   push:
-    branches: [main]
+    branches: [master]
   workflow_dispatch:
 
 permissions:
@@ -17,10 +17,10 @@ jobs:
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           ref: main
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v7
         with:
           python-version: '3.14'
       - name: Install CI tools

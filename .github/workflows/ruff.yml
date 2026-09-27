@@ -2,7 +2,7 @@ name: Ruff Linter
 
 on:
   push:
-    branches: [main]
+    branches: [master]
   pull_request:
 
 permissions:
@@ -10,6 +10,6 @@ permissions:
 
 jobs:
   lint:
-    uses: oe-alliance-plugins/.github/.github/workflows/ruff.yml@main
+    uses: openatv/.github/.github/workflows/ruff.yml@main
     # with:
     #   path: src
