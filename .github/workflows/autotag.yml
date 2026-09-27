@@ -16,7 +16,7 @@ concurrency:
 
 jobs:
   tag_and_release:
-    if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/master'
     runs-on: ubuntu-24.04
     steps:
       - name: Checkout
