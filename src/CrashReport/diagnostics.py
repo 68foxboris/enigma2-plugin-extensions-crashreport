@@ -290,3 +290,9 @@ class Collector:
 
 def collect_diagnostics(directories=(), excluded=(), options=None):
 	return Collector().collect(directories, excluded, options)
+
+
+def diagnostics_for(selected, directories, options):
+	"""The collector for upload_report(), None when every option is off."""
+	excluded = [item["path"] for item in selected]
+	return (lambda: collect_diagnostics(directories, excluded, options)) if any(options.values()) else None

@@ -1,4 +1,3 @@
-import json
 from os import unlink
 from time import strftime, localtime
 
@@ -19,18 +18,14 @@ from Tools import Notifications
 from Tools.LoadPixmap import LoadPixmap
 
 from . import _
-from .client import ReportError, delete_crash_log, log_identity, matching_debug, read_state, save_state, scan_logs, upload_report, validate_endpoint
-from .diagnostics import collect_diagnostics, sanitize_text
+from .client import DEFAULT_SERVER, PRIVACY_NOTICE, ReportError, delete_crash_log, log_directories as client_log_directories, log_identity, read_state, save_state, scan_logs, select_logs, server_defaults, upload_report, validate_endpoint
+from .diagnostics import diagnostics_for, sanitize_text
 from .qr import create_qr
 
-try:
-	with open("/etc/enigma2/crashreport-server.json", encoding="utf-8") as source:
-		defaults = json.load(source)
-except (OSError, ValueError):
-	defaults = {}
+defaults = server_defaults()
 
 config.plugins.crashreport = ConfigSubsection()
-config.plugins.crashreport.server = ConfigText(default=defaults.get("server", "https://bugs.opena.tv"), fixed_size=False)
+config.plugins.crashreport.server = ConfigText(default=defaults.get("server", DEFAULT_SERVER), fixed_size=False)
 config.plugins.crashreport.lan_test = ConfigYesNo(default=bool(defaults.get("lan_test", False)))
 config.plugins.crashreport.remind = ConfigYesNo(default=True)
 config.plugins.crashreport.include_debug = ConfigYesNo(default=True)
@@ -41,7 +36,7 @@ config.plugins.crashreport.extra_logs = ConfigYesNo(default=True)
 
 
 def privacy_notice():
-	return _("Known usernames, passwords, API keys, tokens and URLs are removed before upload. Key files and known softcam files are excluded. Other personal information may remain. Reports are private and accessible to you and the OpenATV support team.")
+	return _(PRIVACY_NOTICE)
 
 
 def error_message(error):
@@ -52,7 +47,7 @@ def error_message(error):
 
 
 def log_directories():
-	return list(dict.fromkeys([config.crash.debug_path.value, "/home/root/logs/", "/tmp/"]))
+	return client_log_directories(config.crash.debug_path.value)
 
 
 def receiver_info():
@@ -151,11 +146,7 @@ class CrashReportScreen(Screen):
 		if not config.plugins.crashreport.server.value.strip():
 			self.settings()
 			return
-		crash = self.crashes[self["list"].getSelectedIndex()]
-		selected = [crash]
-		debug = matching_debug(crash, self.debug) if config.plugins.crashreport.include_debug.value else None
-		if debug:
-			selected.append(debug)
+		selected = select_logs(self.crashes[self["list"].getSelectedIndex()], self.debug, config.plugins.crashreport.include_debug.value)
 		options = {key: getattr(config.plugins.crashreport, key).value for key in ("box_info", "configuration", "system_logs", "extra_logs")}
 		labels = {"box_info": _("Box, image and installed plugins"), "configuration": _("Enigma2 configuration files"),
 			"system_logs": _("Kernel and system logs"), "extra_logs": _("Additional logs")}
@@ -170,9 +161,7 @@ class CrashReportScreen(Screen):
 			return
 		self.busy = True
 		self["status"].setText(_("Preparing and sending the report in the background. Please wait..."))
-		directories = log_directories()
-		excluded = [item["path"] for item in selected]
-		diagnostics = (lambda: collect_diagnostics(directories, excluded, options)) if any(options.values()) else None
+		diagnostics = diagnostics_for(selected, log_directories(), options)
 		deferToThread(upload_report, config.plugins.crashreport.server.value, *receiver_info(), selected,
 			allow_lan_http=config.plugins.crashreport.lan_test.value, diagnostics=diagnostics, redact=sanitize_text).addCallbacks(self.sent, self.failed)
 
