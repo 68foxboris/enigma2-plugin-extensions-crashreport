@@ -8,5 +8,6 @@ setup(name='enigma2-plugin-extensions-crashreport',
        package_dir={pkg: 'CrashReport'},
        packages=[pkg],
        package_data={pkg: ['*.png', 'locale/*/LC_MESSAGES/*.mo']},
+       data_files=[('/usr/bin', ['bin/crashreport'])],
        cmdclass=setup_translate.cmdclass,  # for translation
       )

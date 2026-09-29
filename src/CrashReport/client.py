@@ -15,8 +15,17 @@ MAX_LOG_BYTES = 16 * 1024 * 1024
 MAX_WIRE_BYTES = 4 * 1024 * 1024
 MAX_DECODED_BYTES = 20 * 1024 * 1024
 STATE_PATH = "/etc/enigma2/crashreport-state.json"
+SERVER_PATH = "/etc/enigma2/crashreport-server.json"
+DEFAULT_SERVER = "https://bugs.opena.tv"
 CRASH_PATTERN = re.compile(r"(?:-enigma\d?-crash|^enigma2_crash(?:_[\w-]+)?)\.log$")
 DEBUG_PATTERN = re.compile(r"-enigma\d?-debug\.log$")
+
+
+def _(text):  # Only marks the text for the translation, plugin.py translates it.
+	return text
+
+
+PRIVACY_NOTICE = _("Known usernames, passwords, API keys, tokens and URLs are removed before upload. Key files and known softcam files are excluded. Other personal information may remain. Reports are private and accessible to you and the OpenATV support team.")
 
 
 class ReportError(Exception):
@@ -50,6 +59,27 @@ def validate_endpoint(url, allow_lan_http=False):
 		if not allow_lan_http or not private:
 			raise ReportError("HTTPS is required. HTTP is only allowed for an explicitly enabled LAN test using a private IP address.")
 	return url.strip().rstrip("/")
+
+
+def server_defaults(path=SERVER_PATH):
+	try:
+		with open(path, encoding="utf-8") as source:
+			defaults = json.load(source)
+		return defaults if isinstance(defaults, dict) else {}
+	except (OSError, ValueError):
+		return {}
+
+
+def log_directories(debug_path):
+	return list(dict.fromkeys([debug_path, "/home/root/logs/", "/tmp/"]))
+
+
+def select_logs(crash, debug, include_debug):
+	selected = [crash]
+	match = matching_debug(crash, debug) if include_debug else None
+	if match:
+		selected.append(match)
+	return selected
 
 
 def read_state(path=STATE_PATH):
@@ -156,25 +186,7 @@ def upload_report(endpoint, model, model_name, image_version, enigma_version, se
 				raise ValueError("unsupported schema")
 		except (HTTPError, URLError, OSError, ValueError, TypeError):
 			raise ReportError("The report server needs the diagnostics update. No report was uploaded.") from None
-	if not any(item["kind"] == "crash" for item in selected):
-		raise ReportError("Select a crash log first.")
-	logs, total = [], 0
-	for item in selected:
-		log = read_log(item, MAX_LOG_BYTES - total)
-		if redact is not None:
-			log["content"] = redact(log["content"])
-		total += len(log["content"].encode("utf-8"))
-		if total > MAX_LOG_BYTES:
-			raise ReportError("The complete logs exceed 16 MiB. No log was truncated or uploaded.")
-		logs.append(log)
-	payload = {"schema_version": 1, "upload_id": str(uuid4()), "model": model.lower(), "model_name": model_name,
-		"image_version": image_version, "enigma_version": enigma_version, "consent": True, "logs": logs}
-	if diagnostics is not None:
-		payload["schema_version"] = 2
-		payload["diagnostics"] = diagnostics()
-		total += sum(len(item["content"].encode("utf-8")) for item in payload["diagnostics"])
-		if total > MAX_LOG_BYTES:
-			raise ReportError("Logs and diagnostics exceed 16 MiB. Disable additional logs or configuration collection and try again. Nothing was uploaded.")
+	payload = prepare_report(model, model_name, image_version, enigma_version, selected, diagnostics, redact)
 	decoded = json.dumps(payload, ensure_ascii=False).encode("utf-8")
 	if len(decoded) > MAX_DECODED_BYTES:
 		raise ReportError("The report exceeds the server size limit. Nothing was uploaded.")
@@ -206,3 +218,27 @@ def upload_report(endpoint, model, model_name, image_version, enigma_version, se
 	except OSError:
 		result["save_warning"] = "Tracking details could not be stored on the receiver. Please note the number."
 	return result
+
+
+def prepare_report(model, model_name, image_version, enigma_version, selected, diagnostics=None, redact=None):
+	"""The report as it is uploaded, also for checking it before an upload."""
+	if not any(item["kind"] == "crash" for item in selected):
+		raise ReportError("Select a crash log first.")
+	logs, total = [], 0
+	for item in selected:
+		log = read_log(item, MAX_LOG_BYTES - total)
+		if redact is not None:
+			log["content"] = redact(log["content"])
+		total += len(log["content"].encode("utf-8"))
+		if total > MAX_LOG_BYTES:
+			raise ReportError("The complete logs exceed 16 MiB. No log was truncated or uploaded.")
+		logs.append(log)
+	payload = {"schema_version": 1, "upload_id": str(uuid4()), "model": model.lower(), "model_name": model_name,
+		"image_version": image_version, "enigma_version": enigma_version, "consent": True, "logs": logs}
+	if diagnostics is not None:
+		payload["schema_version"] = 2
+		payload["diagnostics"] = diagnostics()
+		total += sum(len(item["content"].encode("utf-8")) for item in payload["diagnostics"])
+		if total > MAX_LOG_BYTES:
+			raise ReportError("Logs and diagnostics exceed 16 MiB. Disable additional logs or configuration collection and try again. Nothing was uploaded.")
+	return payload
