@@ -26,7 +26,7 @@ jobs:
       - name: Read version from file
         id: get_version
         run: |
-          VERSION=$(python3 CI/version.py)
+          VERSION=$(grep -oP '(?<=__version__ = ")[^"]+' src/CrashReport/__init__.py)
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
       - name: Check if tag already exists
         id: check_tag

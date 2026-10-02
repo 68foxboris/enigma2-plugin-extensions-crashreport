@@ -21,4 +21,4 @@ def _(txt):
 localeInit()
 language.addCallback(localeInit)
 
-__version__ = "0.3"
+__version__ = "0.4"
