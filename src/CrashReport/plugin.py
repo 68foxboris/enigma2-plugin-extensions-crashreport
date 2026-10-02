@@ -342,7 +342,7 @@ class CrashReportReminder:
 		# A modal notification also works while the faulty plugin/menu is open.
 		# No short timeout: do not silently consume a report offer after 30 seconds.
 		try:
-			Notifications.AddModalNotification(text, timeout=-1, default=False, typeIcon=MessageBox.TYPE_YESNO, windowTitle=_("Crash Reports"), callback=self.answer)
+			Notifications.AddModalNotification(text, timeout=-1, default=False, typeIcon=MessageBox.TYPE_YESNO, windowTitle=title(), callback=self.answer)
 		except Exception:
 			self.prompt_identity = None
 			print("[CrashReport] Unable to display the crash report offer.")
@@ -363,12 +363,16 @@ class CrashReportReminder:
 			main(self.session)
 
 
+def title():
+	return _("Crash Reports")
+
+
 def main(session, **kwargs):
 	session.open(CrashReportScreen)
 
 
 def menu(menuid, **kwargs):
-	return [(_("Crash Reports"), main, "openatv_crashreports", None)] if menuid == "system" else []
+	return [(title(), main, "openatv_crashreports", 30)] if menuid == "support" else []
 
 
 def sessionstart(reason, session=None, **kwargs):
@@ -387,7 +391,8 @@ def infobarloaded(reason, session=None, instance=None, typeInfoBar=None, **kwarg
 
 def Plugins(**kwargs):
 	icon = "plugin-fhd.png" if getDesktop(0).size().width() >= 1920 else "plugin.png"
-	return [PluginDescriptor(name=_("Crash Reports"), description=_("Send crash logs and track a support report."), where=PluginDescriptor.WHERE_PLUGINMENU, icon=icon, fnc=main, needsRestart=False),
-		PluginDescriptor(where=PluginDescriptor.WHERE_MENU, fnc=menu, needsRestart=False),
+	description = _("Send crash logs and track a support report.")
+	return [PluginDescriptor(name=title(), description=description, where=PluginDescriptor.WHERE_PLUGINMENU, icon=icon, fnc=main, needsRestart=False),
+		PluginDescriptor(name=title(), description=description, where=PluginDescriptor.WHERE_MENU, fnc=menu, needsRestart=False),
 		PluginDescriptor(where=PluginDescriptor.WHERE_SESSIONSTART, fnc=sessionstart),
 		PluginDescriptor(where=PluginDescriptor.WHERE_INFOBARLOADED, fnc=infobarloaded)]
