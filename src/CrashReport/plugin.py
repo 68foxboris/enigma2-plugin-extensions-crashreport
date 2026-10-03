@@ -4,10 +4,11 @@ from time import strftime, localtime
 from enigma import eTimer, getBsodCounter, getDesktop, getE2Rev
 from twisted.internet.threads import deferToThread
 
-from Components.ActionMap import ActionMap
+from Components.ActionMap import ActionMap, HelpableActionMap
 from Components.Label import Label
 from Components.MenuList import MenuList
 from Components.Pixmap import Pixmap
+from Components.Sources.StaticText import StaticText
 from Components.SystemInfo import BoxInfo, getBoxDisplayName
 from Components.config import config, ConfigSubsection, ConfigText, ConfigYesNo
 from Plugins.Plugin import PluginDescriptor
@@ -83,18 +84,29 @@ class CrashReportSettings(Setup):
 
 class CrashReportScreen(Screen):
 	skin = """
-	<screen name="CrashReportScreen" position="center,center" size="1100,610" resolution="1280,720" title="OpenATV Crash Reports">
-		<widget name="intro" position="25,20" size="1050,65" font="Regular;23" />
-		<widget name="list" position="25,105" size="1050,245" itemHeight="42" font="Regular;23" />
-		<widget name="status" position="25,375" size="1050,145" font="Regular;22" />
-		<widget name="key_red" position="25,555" size="240,35" font="Regular;22" foregroundColor="#ff6060" />
-		<widget name="key_green" position="290,555" size="240,35" font="Regular;22" foregroundColor="#60dd80" />
-		<widget name="key_yellow" position="555,555" size="240,35" font="Regular;22" foregroundColor="#eeee70" />
-		<widget name="key_blue" position="820,555" size="250,35" font="Regular;22" foregroundColor="#709fff" />
+	<screen name="CrashReportScreen" position="center,center" size="980,570" resolution="1280,720" title="OpenATV Crash Reports">
+		<widget name="intro" position="10,10" size="e-20,60" font="Regular;20" valign="center" />
+		<widget name="list" position="10,80" size="e-20,280" enableWrapAround="1" font="Regular;25" itemHeight="35" scrollbarMode="showOnDemand" />
+		<widget name="status" position="10,e-160" size="e-20,100" font="Regular;20" valign="center" />
+		<widget source="key_red" render="Label" position="10,e-50" size="180,40" backgroundColor="key_red" font="Regular;20" foregroundColor="key_text" halign="center" valign="center">
+			<convert type="ConditionalShowHide" />
+		</widget>
+		<widget source="key_green" render="Label" position="200,e-50" size="180,40" backgroundColor="key_green" font="Regular;20" foregroundColor="key_text" halign="center" valign="center">
+			<convert type="ConditionalShowHide" />
+		</widget>
+		<widget source="key_yellow" render="Label" position="390,e-50" size="180,40" backgroundColor="key_yellow" font="Regular;20" foregroundColor="key_text" halign="center" valign="center">
+			<convert type="ConditionalShowHide" />
+		</widget>
+		<widget source="key_blue" render="Label" position="580,e-50" size="180,40" backgroundColor="key_blue" font="Regular;20" foregroundColor="key_text" halign="center" valign="center">
+			<convert type="ConditionalShowHide" />
+		</widget>
+		<widget source="key_help" render="Label" position="e-100,e-50" size="90,40" backgroundColor="key_back" font="Regular;20" conditional="key_help" foregroundColor="key_text" halign="center" valign="center">
+			<convert type="ConditionalShowHide" />
+		</widget>
 	</screen>"""
 
 	def __init__(self, session):
-		Screen.__init__(self, session)
+		Screen.__init__(self, session, enableHelp=True)
 		self.setTitle(_("OpenATV Crash Reports"))
 		self.closed = False
 		self.busy = False
@@ -103,11 +115,21 @@ class CrashReportScreen(Screen):
 		self["list"] = MenuList([])
 		self["status"] = Label(_("Looking for crash logs..."))
 		for key, label in (("red", _("Close")), ("green", _("Send logs")), ("yellow", _("Settings")), ("blue", _("Delete crash log"))):
-			self["key_" + key] = Label(label)
-		self["actions"] = ActionMap(["OkCancelActions", "ColorActions"], {"cancel": self.close, "red": self.close,
-			"ok": self.send, "green": self.send, "yellow": self.settings, "blue": self.delete_log}, -2)
+			self["key_" + key] = StaticText(label)
+		self["actions"] = HelpableActionMap(self, ["OkCancelActions", "ColorActions"], {
+			"ok": (self.send, _("Send the selected crash log")),
+			"cancel": (self.close, _("Close the screen")),
+			"close": (self.keyCloseRecursive, _("Close the screen and exit all menus")),
+			"red": (self.close, _("Close the screen")),
+			"green": (self.send, _("Send the selected crash log")),
+			"yellow": (self.settings, _("Open the crash report settings")),
+			"blue": (self.delete_log, _("Delete the selected local crash log"))
+		}, prio=0, description=_("Crash Report Actions"))
 		self.onClose.append(self.on_closed)
 		self.onLayoutFinish.append(self.refresh)
+
+	def keyCloseRecursive(self):
+		self.close(True)
 
 	def on_closed(self):
 		self.closed = True
