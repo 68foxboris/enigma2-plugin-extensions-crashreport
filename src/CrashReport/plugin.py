@@ -5,15 +5,15 @@ from enigma import eTimer, getBsodCounter, getDesktop, getE2Rev
 from twisted.internet.threads import deferToThread
 
 from Components.ActionMap import ActionMap
-from Components.ConfigList import ConfigListScreen
 from Components.Label import Label
 from Components.MenuList import MenuList
 from Components.Pixmap import Pixmap
 from Components.SystemInfo import BoxInfo, getBoxDisplayName
-from Components.config import config, ConfigSubsection, ConfigText, ConfigYesNo, getConfigListEntry
+from Components.config import config, ConfigSubsection, ConfigText, ConfigYesNo
 from Plugins.Plugin import PluginDescriptor
 from Screens.MessageBox import MessageBox
 from Screens.Screen import Screen
+from Screens.Setup import Setup
 from Tools import Notifications
 from Tools.LoadPixmap import LoadPixmap
 
@@ -56,39 +56,29 @@ def receiver_info():
 		getE2Rev())
 
 
-class CrashReportSettings(ConfigListScreen, Screen):
-	skin = """
-	<screen name="CrashReportSettings" position="center,center" size="1050,500" resolution="1280,720" title="Crash Report Settings">
-		<widget name="config" position="20,20" size="1010,265" itemHeight="40" font="Regular;23" />
-		<widget name="help" position="20,300" size="1010,130" font="Regular;21" />
-		<widget name="key_red" position="20,445" size="420,35" font="Regular;24" foregroundColor="#ff6060" />
-		<widget name="key_green" position="530,445" size="420,35" font="Regular;24" foregroundColor="#60dd80" />
-	</screen>"""
-
+class CrashReportSettings(Setup):
 	def __init__(self, session):
-		Screen.__init__(self, session)
+		Setup.__init__(self, session, None)
 		self.setTitle(_("Crash Report Settings"))
-		ConfigListScreen.__init__(self, [
-			getConfigListEntry(_("Include box, image and installed plugin information"), config.plugins.crashreport.box_info),
-			getConfigListEntry(_("Include Enigma2 configuration files"), config.plugins.crashreport.configuration),
-			getConfigListEntry(_("Include kernel and system logs"), config.plugins.crashreport.system_logs),
-			getConfigListEntry(_("Include the matching debug log"), config.plugins.crashreport.include_debug),
-			getConfigListEntry(_("Include additional logs from temporary and log folders"), config.plugins.crashreport.extra_logs),
-			getConfigListEntry(_("Offer reporting after a crash"), config.plugins.crashreport.remind),
-		], session=session)
-		self["key_red"] = Label(_("Cancel"))
-		self["key_green"] = Label(_("Save"))
-		self["help"] = Label(privacy_notice())
-		self["actions"] = ActionMap(["SetupActions", "ColorActions"], {"cancel": self.keyCancel, "red": self.keyCancel, "green": self.save, "save": self.save}, -2)
 
-	def save(self):
+	def createSetup(self, appendItems=None, prependItems=None):
+		notice = privacy_notice()
+		self["config"].list = [x + (notice,) for x in (
+			(_("Include box, image and installed plugin information"), config.plugins.crashreport.box_info),
+			(_("Include Enigma2 configuration files"), config.plugins.crashreport.configuration),
+			(_("Include kernel and system logs"), config.plugins.crashreport.system_logs),
+			(_("Include the matching debug log"), config.plugins.crashreport.include_debug),
+			(_("Include additional logs from temporary and log folders"), config.plugins.crashreport.extra_logs),
+			(_("Offer reporting after a crash"), config.plugins.crashreport.remind))]
+
+	def keySave(self):
 		try:
 			if config.plugins.crashreport.server.value.strip():
 				validate_endpoint(config.plugins.crashreport.server.value, config.plugins.crashreport.lan_test.value)
 		except Exception as error:
 			self.session.open(MessageBox, error_message(error), type=MessageBox.TYPE_ERROR)
 			return
-		self.keySave()
+		Setup.keySave(self)
 
 
 class CrashReportScreen(Screen):
