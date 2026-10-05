@@ -1,3 +1,0 @@
-#!/bin/sh
-# Crash reports without enigma2, e.g. when the GUI does not start, see cli.py.
-exec /usr/bin/python3 /usr/lib/enigma2/python/Plugins/Extensions/CrashReport/cli.pyc "$@"

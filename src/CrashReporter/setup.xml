@@ -1,0 +1,11 @@
+<setupxml>
+	<setup key="CrashReporter" title="Crash Reporter Settings">
+		<item level="0" text="Offer reporting after a crash" description="When enabled, a pop up will be shown in the InfoBar to remind the user to submit the crash report.">config.plugins.CrashReporter.reminder</item>
+		<item level="0" text="Tell me about answers to my reports" description="When enabled, the receiver asks the report server once after the start whether a developer answered one of your reports.">config.plugins.CrashReporter.answerReminder</item>
+		<item level="0" text="Include receiver information" description="When enabled, include receiver, image and installed plugin information into the report.">config.plugins.CrashReporter.receiverInfo</item>
+		<item level="0" text="Include Enigma2 configuration files" description="When enabled, include the OpenATV configuration files into the report.">config.plugins.CrashReporter.configuration</item>
+		<item level="0" text="Include kernel and system logs" description="When enabled, include kernel and system logs into the report.">config.plugins.CrashReporter.systemLogs</item>
+		<item level="0" text="Include the matching debug log" description="When enabled, include the matching debug log related to the crash log into the report.">config.plugins.CrashReporter.includeDebug</item>
+		<item level="0" text="Include additional logs" description="When enabled, include additional logs from temporary and other log folders into the report.">config.plugins.CrashReporter.extraLogs</item>
+	</setup>
+</setupxml>

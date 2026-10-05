@@ -58,7 +58,7 @@ fi
 # So if parameters are changed in Makefile please report the same changes in this script.
 #
 # Extract the plugin language domain from __init__.py or plugin.py
-PLUGIN_DOMAIN=$(grep -r "PluginLanguageDomain\s*=" .. | head -1 | $localgsed "s/.*PluginLanguageDomain\s*=\s*['\"]\\([^'\"]*\\)['\"].*/\\1/")
+PLUGIN_DOMAIN=$(grep -rh "PluginLanguageDomain\s*=\s*['\"]" .. | head -1 | $localgsed "s/.*PluginLanguageDomain\s*=\s*['\"]\\([^'\"]*\\)['\"].*/\\1/")
 
 if [ -z "$PLUGIN_DOMAIN" ]; then
 	printf "Error: Could not find PluginLanguageDomain in __init__.py or plugin.py\n"

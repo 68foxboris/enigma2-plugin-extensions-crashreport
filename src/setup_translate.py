@@ -15,7 +15,7 @@ class build_trans(Command):
 		pass  # Will be called by setuptools, but we don't have any options to initialize
 
 	def run(self):
-		s = join('CrashReport', 'locale')
+		s = join('CrashReporter', 'locale')
 		lang_domains = glob(join(s, '*.pot'))
 		if len(lang_domains):
 			for lang in listdir(s):
