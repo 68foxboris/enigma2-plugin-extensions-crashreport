@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: CrashReport\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-10-08 00:13+0200\n"
-"PO-Revision-Date: 2026-10-02 11:56+0100\n"
+"PO-Revision-Date: 2026-10-09 19:24+0100\n"
 "Last-Translator: StreamF\n"
 "Language-Team: Polish\n"
 "Language: pl\n"
@@ -31,28 +31,28 @@ msgstr ""
 
 #: ../plugin.py:765
 msgid "A developer has answered your crash report. Would you like to read the answer now?"
-msgstr ""
+msgstr "Programista odpowiedział na Twoje zgłoszenie awarii. Czy chcesz teraz przeczytać odpowiedź?"
 
 #: ../plugin.py:528
 msgid "Answer"
-msgstr ""
+msgstr "Odpowiedz"
 
 #: ../plugin.py:576
 #, python-format
 msgid "Answer for ticket #%s (at most %d characters)"
-msgstr ""
+msgstr "Odpowiedź do zgłoszenia #%s (maksymalnie %d znaków)"
 
 #: ../plugin.py:388
 msgid "Ask the report server again"
-msgstr ""
+msgstr "Ponownie sprawdź na serwerze zgłoszeń"
 
 #: ../plugin.py:380
 msgid "Asking the report server for the state of your reports..."
-msgstr ""
+msgstr "Sprawdzanie stanu Twoich zgłoszeń na serwerze zgłoszeń..."
 
 #: ../plugin.py:530
 msgid "Attach"
-msgstr ""
+msgstr "Dołącz"
 
 #: ../plugin.py:192 ../plugin.py:345 ../plugin.py:381 ../plugin.py:504
 msgid "Close"
@@ -62,78 +62,68 @@ msgstr "Zamknij"
 #: ../plugin.py:349 ../plugin.py:386 ../plugin.py:387 ../plugin.py:510
 #: ../plugin.py:511
 msgid "Close the screen"
-msgstr ""
+msgstr "Zamknij ekran"
 
 #: ../plugin.py:200
 msgid "Close the screen and exit all menus"
-msgstr ""
+msgstr "Zamknij ekran i wyjdź ze wszystkich menu"
 
 #: ../plugin.py:118
 msgid "Close ticket"
-msgstr ""
+msgstr "Zamknij zgłoszenie"
 
 #: ../plugin.py:90
-#, fuzzy
 msgid "Closed"
-msgstr "Zamknij"
+msgstr "Zamknięte"
 
 #: ../plugin.py:340
 msgid "Complete Your Crash Report"
 msgstr "Dokończ zgłoszenie awarii"
 
 #: ../plugin.py:501
-#, fuzzy, python-format
+#, python-format
 msgid "Crash Report %s"
-msgstr "Zgłoszenia awarii"
+msgstr "Zgłoszenie awarii %s"
 
 #: ../plugin.py:746 ../plugin.py:767 ../plugin.py:801 ../plugin.py:819
-#, fuzzy
 msgid "Crash Reporter"
-msgstr "Zgłoszenia awarii"
+msgstr "Zgłaszanie awarii"
 
 #: ../plugin.py:212 ../plugin.py:350 ../plugin.py:396 ../plugin.py:521
-#, fuzzy
 msgid "Crash Reporter Actions"
-msgstr "Ustawienia zgłaszania awarii"
+msgstr "Akcje zgłaszania awarii"
 
 #: ../setup.xml
-#, fuzzy
 msgid "Crash Reporter Settings"
 msgstr "Ustawienia zgłaszania awarii"
 
 #: ../plugin.py:581
-#, fuzzy
 msgid "Crash log"
-msgstr "Zgłoszenia awarii"
+msgstr "Log awarii"
 
 #: ../plugin.py:583
 msgid "Current debug log"
-msgstr ""
+msgstr "Bieżący log debugowania"
 
 #: ../plugin.py:417
-#, fuzzy
 msgid "Delete"
-msgstr "Usuń log awarii"
+msgstr "Usuń"
 
 #: ../plugin.py:237
-#, fuzzy
 msgid "Delete Log"
-msgstr "Usuń log awarii"
+msgstr "Usuń log"
 
 #: ../plugin.py:204
-#, fuzzy
 msgid "Delete the selected local crash log"
-msgstr "Usuwanie wybranego lokalnego logu awarii..."
+msgstr "Usuń wybrany lokalny log awarii"
 
 #: ../plugin.py:389
-#, fuzzy
 msgid "Delete the selected report from the receiver"
-msgstr "Usuwanie wybranego lokalnego logu awarii..."
+msgstr "Usuń wybrane zgłoszenie z odbiornika"
 
 #: ../plugin.py:444
-#, fuzzy
 msgid "Deleting the report. Please wait..."
-msgstr "Przygotowywanie i wysyłanie zgłoszenia w tle. Proszę czekać..."
+msgstr "Usuwanie zgłoszenia. Proszę czekać..."
 
 #: ../plugin.py:308
 msgid "Deleting the selected local crash log..."
@@ -141,7 +131,7 @@ msgstr "Usuwanie wybranego lokalnego logu awarii..."
 
 #: ../plugin.py:652
 msgid "Developer"
-msgstr ""
+msgstr "Programista"
 
 #: ../plugin.py:744
 msgid "Enigma2 has created a new crash log. Would you like to report the problem now? No data will be sent without your confirmation."
@@ -149,51 +139,47 @@ msgstr "Enigma2 utworzyła nowy log awarii. Czy chcesz teraz zgłosić problem? 
 
 #: ../client.py:403
 msgid "Enter an answer or select a file."
-msgstr ""
+msgstr "Wpisz odpowiedź lub wybierz plik."
 
 #: ../plugin.py:90
 msgid "Feedback"
-msgstr ""
+msgstr "Oczekuje na odpowiedź"
 
 #: ../plugin.py:529
 msgid "Finish"
-msgstr ""
+msgstr "Zakończ"
 
 #: ../plugin.py:90
 msgid "In Progress"
-msgstr ""
+msgstr "W toku"
 
 #: ../setup.xml
-#, fuzzy
 msgid "Include Enigma2 configuration files"
-msgstr "Pliki konfiguracyjne Enigma2"
+msgstr "Dołącz pliki konfiguracyjne Enigma2"
 
 #: ../setup.xml
-#, fuzzy
 msgid "Include additional logs"
-msgstr "Dodatkowe logi"
+msgstr "Dołącz dodatkowe logi"
 
 #: ../setup.xml
-#, fuzzy
 msgid "Include kernel and system logs"
-msgstr "Logi kernela i systemu"
+msgstr "Dołącz logi kernela i systemu"
 
 #: ../setup.xml
 msgid "Include receiver information"
-msgstr ""
+msgstr "Dołącz informacje o odbiorniku"
 
 #: ../setup.xml
 msgid "Include the matching debug log"
-msgstr ""
+msgstr "Dołącz pasujący log debugowania"
 
 #: ../plugin.py:289 ../plugin.py:594
 msgid "Known usernames, passwords, API keys, tokens and URLs are removed before upload. Key files and known softcam files are excluded. Other personal information may remain. Reports are private and accessible to you and the OpenATV support team."
 msgstr "Znane nazwy użytkowników, hasła, klucze API, tokeny i adresy URL są usuwane przed wysłaniem. Pliki kluczy i znane pliki softcamów są pomijane. Inne dane osobowe mogą pozostać. Zgłoszenia są prywatne i dostępne tylko dla Ciebie i zespołu wsparcia OpenATV."
 
 #: ../client.py:180
-#, fuzzy
 msgid "Logs and diagnostics exceed 16 MiB. Disable additional logs or configuration files and try again. Nothing was uploaded."
-msgstr "Logi i dane diagnostyczne przekraczają 16 MiB. Wyłącz dodatkowe logi lub zbieranie konfiguracji i spróbuj ponownie. Nic nie zostało wysłane."
+msgstr "Logi i dane diagnostyczne przekraczają 16 MiB. Wyłącz dodatkowe logi lub pliki konfiguracyjne i spróbuj ponownie. Nic nie zostało wysłane."
 
 #: ../plugin.py:191
 msgid "Looking for crash logs..."
@@ -201,60 +187,59 @@ msgstr "Wyszukiwanie logów awarii..."
 
 #: ../plugin.py:196
 msgid "MENU"
-msgstr ""
+msgstr "MENU"
 
 #: ../plugin.py:513
 msgid "Mark the ticket as resolved or close it"
-msgstr ""
+msgstr "Oznacz zgłoszenie jako rozwiązane lub je zamknij"
 
 #: ../plugin.py:209 ../plugin.py:393 ../plugin.py:518
 msgid "Move down a line"
-msgstr ""
+msgstr "Przejdź o jeden wiersz w dół"
 
 #: ../plugin.py:210 ../plugin.py:394 ../plugin.py:519
 msgid "Move down a screen"
-msgstr ""
+msgstr "Przejdź o jeden ekran w dół"
 
 #: ../plugin.py:206 ../plugin.py:390 ../plugin.py:515
 msgid "Move to first line / screen"
-msgstr ""
+msgstr "Przejdź do pierwszego wiersza / ekranu"
 
 #: ../plugin.py:211 ../plugin.py:395 ../plugin.py:520
 msgid "Move to last line / screen"
-msgstr ""
+msgstr "Przejdź do ostatniego wiersza / ekranu"
 
 #: ../plugin.py:208 ../plugin.py:392 ../plugin.py:517
 msgid "Move up a line"
-msgstr ""
+msgstr "Przejdź o jeden wiersz w górę"
 
 #: ../plugin.py:207 ../plugin.py:391 ../plugin.py:516
 msgid "Move up a screen"
-msgstr ""
+msgstr "Przejdź o jeden ekran w górę"
 
 #: ../plugin.py:378
-#, fuzzy
 msgid "My Crash Reports"
-msgstr "Zgłoszenia awarii"
+msgstr "Moje zgłoszenia awarii"
 
 #: ../plugin.py:195
 msgid "My Reports"
-msgstr ""
+msgstr "Moje zgłoszenia"
 
 #: ../plugin.py:90
 msgid "New"
-msgstr ""
+msgstr "Nowe"
 
 #: ../plugin.py:415
 msgid "New answer"
-msgstr ""
+msgstr "Nowa odpowiedź"
 
 #: ../plugin.py:585
 msgid "New diagnostics with the current settings"
-msgstr ""
+msgstr "Nowa diagnostyka z bieżącymi ustawieniami"
 
 #: ../plugin.py:118
 msgid "No"
-msgstr ""
+msgstr "Nie"
 
 #: ../plugin.py:242
 msgid "No crash logs found."
@@ -262,42 +247,38 @@ msgstr "Nie znaleziono logów awarii."
 
 #: ../plugin.py:103
 msgid "No longer available"
-msgstr ""
+msgstr "Już niedostępne"
 
 #: ../plugin.py:427
 msgid "No reports were sent from this receiver yet."
-msgstr ""
+msgstr "Z tego odbiornika nie wysłano jeszcze żadnych zgłoszeń."
 
 #: ../plugin.py:102
 msgid "Not submitted yet"
-msgstr ""
+msgstr "Jeszcze niedokończone"
 
 #: ../setup.xml
 msgid "Offer reporting after a crash"
-msgstr ""
+msgstr "Proponuj zgłoszenie po awarii"
 
 #: ../client.py:96
-#, fuzzy
 msgid "Only a selected crash log from the log folders can be deleted."
-msgstr "Można usunąć tylko wybrany log awarii ze skonfigurowanych folderów logów."
+msgstr "Można usunąć tylko wybrany log awarii z folderów logów."
 
 #: ../plugin.py:201
-#, fuzzy
 msgid "Open the Crash Reporter settings"
-msgstr "Ustawienia zgłaszania awarii"
+msgstr "Otwórz ustawienia zgłaszania awarii"
 
 #: ../plugin.py:189
-#, fuzzy
 msgid "OpenATV Crash Reporter"
-msgstr "Zgłoszenia awarii OpenATV"
+msgstr "Zgłaszanie awarii OpenATV"
 
 #: ../plugin.py:281
-#, fuzzy
 msgid "OpenATV configuration files"
-msgstr "Pliki konfiguracyjne Enigma2"
+msgstr "Pliki konfiguracyjne OpenATV"
 
 #: ../plugin.py:313
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "Permanently delete this crash log from the receiver?\n"
 "\n"
@@ -321,7 +302,7 @@ msgstr "Przygotowywanie i wysyłanie zgłoszenia w tle. Proszę czekać..."
 
 #: ../plugin.py:120
 msgid "Problem solved"
-msgstr ""
+msgstr "Problem rozwiązany"
 
 #: ../plugin.py:146
 msgid "QR code unavailable. Please enter the number manually."
@@ -329,23 +310,23 @@ msgstr "Kod QR niedostępny. Wprowadź numer ręcznie."
 
 #: ../plugin.py:382
 msgid "Refresh"
-msgstr ""
+msgstr "Odśwież"
 
 #: ../plugin.py:90
 msgid "Rejected"
-msgstr ""
+msgstr "Odrzucone"
 
 #: ../plugin.py:288
 msgid "Report will contain"
-msgstr ""
+msgstr "Zgłoszenie będzie zawierać"
 
 #: ../plugin.py:90
 msgid "Resolved"
-msgstr ""
+msgstr "Rozwiązane"
 
 #: ../plugin.py:677
 msgid "Scan the QR code to open the ticket on a phone or PC. You may have to confirm your email again."
-msgstr ""
+msgstr "Zeskanuj kod QR, aby otworzyć zgłoszenie na telefonie lub komputerze. Może być konieczne ponowne potwierdzenie adresu e-mail."
 
 #: ../plugin.py:342
 msgid "Scan the QR code, or enter the tracking number on the website."
@@ -356,171 +337,155 @@ msgid "Select a crash log first."
 msgstr "Najpierw wybierz log awarii."
 
 #: ../plugin.py:238
-#, fuzzy
 msgid "Select a crash log to be sent for analysis, scan the QR code or enter the tracking number on a phone or PC to complete and confirm your report."
-msgstr "Wybierz log awarii do wysłania. Następnie zeskanuj kod QR lub wprowadź numer zgłoszenia na telefonie lub komputerze, aby dokończyć zgłoszenie."
+msgstr "Wybierz log awarii do wysłania do analizy, a następnie zeskanuj kod QR lub wprowadź numer zgłoszenia na telefonie lub komputerze, aby dokończyć i potwierdzić zgłoszenie."
 
 #: ../plugin.py:427
 msgid "Select a report to read the answers. The QR code opens it on a phone or PC."
-msgstr ""
+msgstr "Wybierz zgłoszenie, aby przeczytać odpowiedzi. Kod QR otwiera je na telefonie lub komputerze."
 
 #: ../plugin.py:236
-#, fuzzy
 msgid "Send Log"
-msgstr "Wyślij logi"
+msgstr "Wyślij log"
 
 #: ../plugin.py:514
 msgid "Send another log or the diagnostics"
-msgstr ""
+msgstr "Wyślij kolejny log lub dane diagnostyczne"
 
 #: ../plugin.py:820
 #, python-format
 msgid "Send crash logs to OpenATV support and get a case tracking number. (Version %s)"
-msgstr ""
+msgstr "Wysyłaj logi awarii do wsparcia OpenATV i otrzymuj numer zgłoszenia. (Wersja %s)"
 
 #: ../plugin.py:198 ../plugin.py:203
-#, fuzzy
 msgid "Send the selected crash log"
-msgstr "Usuwanie wybranego lokalnego logu awarii..."
+msgstr "Wyślij wybrany log awarii"
 
 #: ../plugin.py:285
-#, fuzzy
 msgid "Send these logs to OpenATV?"
-msgstr ""
-"Wysłać te logi do OpenATV?\n"
-"\n"
-"%s"
+msgstr "Wysłać te logi do OpenATV?"
 
 #: ../plugin.py:572
 #, python-format
 msgid "Send this answer to ticket #%s?"
-msgstr ""
+msgstr "Wysłać tę odpowiedź do zgłoszenia #%s?"
 
 #: ../plugin.py:593
 #, python-format
 msgid "Send this to ticket #%s?"
-msgstr ""
+msgstr "Wysłać to do zgłoszenia #%s?"
 
 #: ../client.py:420
 #, python-format
 msgid "Sending failed. %s"
-msgstr ""
+msgstr "Wysyłanie nie powiodło się. %s"
 
 #: ../client.py:418
-#, fuzzy, python-format
+#, python-format
 msgid "Sending rejected (HTTP %d). %s"
 msgstr "Wysyłanie odrzucone (HTTP %d). %s"
 
 #: ../plugin.py:539 ../plugin.py:628
-#, fuzzy, python-format
+#, python-format
 msgid "Sending to ticket #%s in the background. Please wait..."
-msgstr "Przygotowywanie i wysyłanie zgłoszenia w tle. Proszę czekać..."
+msgstr "Wysyłanie do zgłoszenia #%s w tle. Proszę czekać..."
 
 #: ../plugin.py:643
 msgid "Sent"
-msgstr ""
+msgstr "Wysłano"
 
 #: ../plugin.py:616 ../plugin.py:620
 #, python-format
 msgid "Sent to ticket #%s. Thank you!"
-msgstr ""
+msgstr "Wysłano zgłoszenie #%s. Dziękujemy!"
 
 #: ../plugin.py:463 ../plugin.py:466 ../plugin.py:468
 msgid "Should the report be deleted?"
-msgstr ""
+msgstr "Czy usunąć zgłoszenie?"
 
 #: ../plugin.py:561
 msgid "Should the ticket be finished?"
-msgstr ""
+msgstr "Czy zakończyć zgłoszenie?"
 
 #: ../plugin.py:385
 msgid "Show the selected report and the answers"
-msgstr ""
+msgstr "Pokaż wybrane zgłoszenie i odpowiedzi"
 
 #: ../plugin.py:205
 msgid "Show the sent reports and the answers"
-msgstr ""
+msgstr "Pokaż wysłane zgłoszenia i odpowiedzi"
 
 #: ../plugin.py:646
 msgid "Status"
-msgstr ""
+msgstr "Status"
 
 #: ../setup.xml
 msgid "Tell me about answers to my reports"
-msgstr ""
+msgstr "Powiadamiaj o odpowiedziach na moje zgłoszenia"
 
 #: ../client.py:375
 msgid "The answer is too long or contains invalid characters."
-msgstr ""
+msgstr "Odpowiedź jest za długa lub zawiera nieprawidłowe znaki."
 
 #: ../client.py:206 ../client.py:408
-#, fuzzy
 msgid "The compressed report exceeds 4 MiB. Nothing was uploaded."
-msgstr "Skompresowane logi przekraczają 4 MiB. Żaden log nie został przycięty ani wysłany."
+msgstr "Skompresowane zgłoszenie przekracza 4 MiB. Nic nie zostało wysłane."
 
 #: ../client.py:102
-#, fuzzy
 msgid "The crash log has changed. Nothing was deleted."
-msgstr "Log awarii został zmieniony. Otwórz ponownie listę i wybierz go jeszcze raz. Nic nie zostało usunięte."
+msgstr "Log awarii został zmieniony. Nic nie zostało usunięte."
 
 #: ../client.py:138
-#, fuzzy
 msgid "The log changed while it was read. Please try again."
 msgstr "Log zmienił się podczas odczytu. Spróbuj ponownie."
 
 #: ../client.py:135 ../client.py:160 ../client.py:395
-#, fuzzy
 msgid "The logs exceed 16 MiB. Nothing was uploaded."
-msgstr "Pełne logi przekraczają 16 MiB. Żaden log nie został przycięty ani wysłany."
+msgstr "Logi przekraczają 16 MiB. Nic nie zostało wysłane."
 
 #: ../plugin.py:650
 #, python-format
 msgid "The newest %d of %d answers:"
-msgstr ""
+msgstr "Najnowsze %d z %d odpowiedzi:"
 
 #: ../client.py:203
 msgid "The report exceeds the server size limit. Nothing was uploaded."
 msgstr "Zgłoszenie przekracza limit rozmiaru serwera. Nic nie zostało wysłane."
 
 #: ../client.py:382
-#, fuzzy
 msgid "The report server does not accept answers from the receiver yet."
-msgstr "Serwer zgłoszeń wymaga aktualizacji obsługi diagnostyki. Żadne zgłoszenie nie zostało wysłane."
+msgstr "Serwer zgłoszeń nie przyjmuje jeszcze odpowiedzi z odbiornika."
 
 #: ../client.py:199
-#, fuzzy
 msgid "The report server does not support diagnostics yet. Nothing was uploaded."
-msgstr "Serwer zgłoszeń wymaga aktualizacji obsługi diagnostyki. Żadne zgłoszenie nie zostało wysłane."
+msgstr "Serwer zgłoszeń nie obsługuje jeszcze diagnostyki. Nic nie zostało wysłane."
 
 #: ../client.py:277
-#, fuzzy
 msgid "The report server does not support the report status yet."
-msgstr "Serwer zgłoszeń wymaga aktualizacji obsługi diagnostyki. Żadne zgłoszenie nie zostało wysłane."
+msgstr "Serwer zgłoszeń nie obsługuje jeszcze sprawdzania stanu zgłoszeń."
 
 #: ../client.py:285 ../client.py:344 ../client.py:380
-#, fuzzy
 msgid "The report server is not reachable. Please try again later."
-msgstr "Log zmienił się podczas odczytu. Spróbuj ponownie."
+msgstr "Serwer zgłoszeń jest nieosiągalny. Spróbuj ponownie później."
 
 #: ../client.py:342
 #, python-format
 msgid "The report server rejected the request (HTTP %d)."
-msgstr ""
+msgstr "Serwer zgłoszeń odrzucił żądanie (HTTP %d)."
 
 #: ../client.py:283
 #, python-format
 msgid "The report status is not available (HTTP %d)."
-msgstr ""
+msgstr "Stan zgłoszenia jest niedostępny (HTTP %d)."
 
 #: ../plugin.py:452
-#, fuzzy
 msgid "The report was deleted from the receiver."
-msgstr "Serwer zgłoszeń wymaga aktualizacji obsługi diagnostyki. Żadne zgłoszenie nie zostało wysłane."
+msgstr "Zgłoszenie zostało usunięte z odbiornika."
 
 #: ../plugin.py:457
 #, python-format
 msgid "The report was not deleted. %s"
-msgstr ""
+msgstr "Zgłoszenie nie zostało usunięte. %s"
 
 #: ../client.py:141
 msgid "The selected file contains binary data, not a text log."
@@ -531,9 +496,8 @@ msgid "The selected log is not a regular, non-empty file."
 msgstr "Wybrany log nie jest zwykłym, niepustym plikiem."
 
 #: ../client.py:41
-#, fuzzy
 msgid "The server redirected the upload. Nothing was uploaded."
-msgstr "Zgłoszenie przekracza limit rozmiaru serwera. Nic nie zostało wysłane."
+msgstr "Serwer przekierował wysyłanie. Nic nie zostało wysłane."
 
 #: ../client.py:220
 msgid "The server returned an invalid tracking number or model."
@@ -541,7 +505,7 @@ msgstr "Serwer zwrócił nieprawidłowy numer zgłoszenia lub model."
 
 #: ../client.py:242
 msgid "The tracking details could not be saved on the receiver. Please write down the number."
-msgstr ""
+msgstr "Nie udało się zapisać danych zgłoszenia na odbiorniku. Zapisz numer zgłoszenia."
 
 #: ../plugin.py:354 ../plugin.py:682
 msgid "The tracking number is filled in automatically."
@@ -549,29 +513,29 @@ msgstr "Numer zgłoszenia zostanie uzupełniony automatycznie."
 
 #: ../plugin.py:657
 msgid "There are no answers yet."
-msgstr ""
+msgstr "Nie ma jeszcze odpowiedzi."
 
 #: ../plugin.py:663
 msgid "This report is no longer available on the report server. A report that was not completed on the website is deleted after 48 hours."
-msgstr ""
+msgstr "To zgłoszenie nie jest już dostępne na serwerze zgłoszeń. Zgłoszenie, które nie zostało dokończone na stronie internetowej, jest usuwane po 48 godzinach."
 
 #: ../plugin.py:660
 #, python-format
 msgid "This report was not submitted yet. Scan the QR code and complete it on the website until %s."
-msgstr ""
+msgstr "To zgłoszenie nie zostało jeszcze dokończone. Zeskanuj kod QR i dokończ je na stronie internetowej do %s."
 
 #: ../plugin.py:646
 msgid "Ticket"
-msgstr ""
+msgstr "Zgłoszenie"
 
 #: ../plugin.py:553
 #, python-format
 msgid "Ticket #%s now has the status %s."
-msgstr ""
+msgstr "Zgłoszenie #%s ma teraz status %s."
 
 #: ../plugin.py:642
 msgid "Tracking number"
-msgstr ""
+msgstr "Numer zgłoszenia"
 
 #: ../plugin.py:270
 #, python-format
@@ -585,12 +549,11 @@ msgstr ""
 "Zaloguj się i dokończ zgłoszenie w ciągu 48 godzin."
 
 #: ../plugin.py:290
-#, fuzzy
 msgid "Unconfirmed uploads will expire and be deleted after 48 hours. Your local files are not affected."
-msgstr "Niedokończone zgłoszenia wygasają po 48 godzinach. Pliki lokalne zostaną zachowane."
+msgstr "Niepotwierdzone zgłoszenia wygasają i są usuwane po 48 godzinach. Pliki lokalne zostaną zachowane."
 
 #: ../client.py:218
-#, fuzzy, python-format
+#, python-format
 msgid "Upload failed. The local logs were not deleted. %s"
 msgstr "Wysyłanie nie powiodło się. Lokalne logi nie zostały usunięte. %s"
 
@@ -602,56 +565,52 @@ msgstr "Wysyłanie odrzucone (HTTP %d). %s"
 #: ../plugin.py:587
 #, python-format
 msgid "What should be added to ticket #%s?"
-msgstr ""
+msgstr "Co dodać do zgłoszenia #%s?"
 
 #: ../setup.xml
 msgid "When enabled, a pop up will be shown in the InfoBar to remind the user to submit the crash report."
-msgstr ""
+msgstr "Po włączeniu na pasku informacyjnym pojawi się okno z przypomnieniem o wysłaniu zgłoszenia awarii."
 
 #: ../setup.xml
 msgid "When enabled, include additional logs from temporary and other log folders into the report."
-msgstr ""
+msgstr "Po włączeniu do zgłoszenia zostaną dołączone dodatkowe logi z folderów tymczasowych i innych folderów logów."
 
 #: ../setup.xml
 msgid "When enabled, include kernel and system logs into the report."
-msgstr ""
+msgstr "Po włączeniu do zgłoszenia zostaną dołączone logi kernela i systemu."
 
 #: ../setup.xml
 msgid "When enabled, include receiver, image and installed plugin information into the report."
-msgstr ""
+msgstr "Po włączeniu do zgłoszenia zostaną dołączone informacje o odbiorniku, obrazie systemu i zainstalowanych wtyczkach."
 
 #: ../setup.xml
 msgid "When enabled, include the OpenATV configuration files into the report."
-msgstr ""
+msgstr "Po włączeniu do zgłoszenia zostaną dołączone pliki konfiguracyjne OpenATV."
 
 #: ../setup.xml
 msgid "When enabled, include the matching debug log related to the crash log into the report."
-msgstr ""
+msgstr "Po włączeniu do zgłoszenia zostanie dołączony log debugowania pasujący do logu awarii."
 
 #: ../setup.xml
 msgid "When enabled, the receiver asks the report server once after the start whether a developer answered one of your reports."
-msgstr ""
+msgstr "Po włączeniu odbiornik po uruchomieniu jednorazowo sprawdza na serwerze zgłoszeń, czy programista odpowiedział na któreś z Twoich zgłoszeń."
 
 #: ../plugin.py:512
 msgid "Write an answer for the developers"
-msgstr ""
-
+msgstr "Napisz odpowiedź dla programistów"
 
 #: ../plugin.py:652
 msgid "You"
-msgstr ""
+msgstr "Ty"
 
 #: ../plugin.py:283
-#, fuzzy
 msgid "additional logs"
-msgstr "Dodatkowe logi"
+msgstr "dodatkowe logi"
 
 #: ../plugin.py:282
-#, fuzzy
 msgid "kernel and system logs"
-msgstr "Logi kernela i systemu"
+msgstr "logi kernela i systemu"
 
 #: ../plugin.py:280
-#, fuzzy
 msgid "receiver, image and installed plugins"
-msgstr "Odbiornik, obraz systemu i zainstalowane wtyczki"
+msgstr "odbiornik, obraz systemu i zainstalowane wtyczki"
