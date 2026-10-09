@@ -1,0 +1,606 @@
+# German translations for OpenATV CrashReport.
+# Copyright (C) 2026 OpenATV
+# This file is distributed under the same license as the CrashReport package.
+# OpenATV team, 2026.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: CrashReport 0.3\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-08 00:13+0200\n"
+"PO-Revision-Date: 2026-09-20 00:10+0200\n"
+"Last-Translator: OpenATV team\n"
+"Language-Team: German\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: ../plugin.py:344
+#, python-format
+msgid ""
+"%s\n"
+"\n"
+"Sign in or register and confirm your email. Then describe the problem and submit the report within 48 hours. The box model is supplied automatically."
+msgstr ""
+"%s\n"
+"\n"
+"Anmelden oder registrieren und die E-Mail-Adresse bestätigen. Danach das Problem beschreiben und die Meldung innerhalb von 48 Stunden einreichen. Das Boxmodell wird automatisch übernommen."
+
+#: ../plugin.py:765
+msgid "A developer has answered your crash report. Would you like to read the answer now?"
+msgstr "Ein Entwickler hat auf deinen Fehlerbericht geantwortet. Möchtest du die Antwort jetzt lesen?"
+
+#: ../plugin.py:528
+msgid "Answer"
+msgstr "Antworten"
+
+#: ../plugin.py:576
+#, python-format
+msgid "Answer for ticket #%s (at most %d characters)"
+msgstr "Antwort für Ticket #%s (höchstens %d Zeichen)"
+
+#: ../plugin.py:388
+msgid "Ask the report server again"
+msgstr "Den Berichtsserver erneut abfragen"
+
+#: ../plugin.py:380
+msgid "Asking the report server for the state of your reports..."
+msgstr "Der Stand deiner Berichte wird beim Berichtsserver abgefragt..."
+
+#: ../plugin.py:530
+msgid "Attach"
+msgstr "Anhängen"
+
+#: ../plugin.py:192 ../plugin.py:345 ../plugin.py:381 ../plugin.py:504
+msgid "Close"
+msgstr "Schließen"
+
+#: ../plugin.py:199 ../plugin.py:202 ../plugin.py:347 ../plugin.py:348
+#: ../plugin.py:349 ../plugin.py:386 ../plugin.py:387 ../plugin.py:510
+#: ../plugin.py:511
+msgid "Close the screen"
+msgstr "Den Bildschirm schließen"
+
+#: ../plugin.py:200
+msgid "Close the screen and exit all menus"
+msgstr "Den Bildschirm schließen und alle Menüs verlassen"
+
+#: ../plugin.py:118
+msgid "Close ticket"
+msgstr "Ticket schließen"
+
+#: ../plugin.py:90
+msgid "Closed"
+msgstr "Geschlossen"
+
+#: ../plugin.py:340
+msgid "Complete Your Crash Report"
+msgstr "Fehlerbericht vervollständigen"
+
+#: ../plugin.py:501
+#, python-format
+msgid "Crash Report %s"
+msgstr "Fehlerbericht %s"
+
+#: ../plugin.py:746 ../plugin.py:767 ../plugin.py:801 ../plugin.py:819
+msgid "Crash Reporter"
+msgstr "Fehlerberichte"
+
+#: ../plugin.py:212 ../plugin.py:350 ../plugin.py:396 ../plugin.py:521
+msgid "Crash Reporter Actions"
+msgstr "Fehlerbericht-Aktionen"
+
+#: ../setup.xml
+msgid "Crash Reporter Settings"
+msgstr "Fehlerbericht-Einstellungen"
+
+#: ../plugin.py:581
+msgid "Crash log"
+msgstr "Crashlog"
+
+#: ../plugin.py:583
+msgid "Current debug log"
+msgstr "Aktuelles Debug-Log"
+
+#: ../plugin.py:417
+msgid "Delete"
+msgstr "Löschen"
+
+#: ../plugin.py:237
+msgid "Delete Log"
+msgstr "Log löschen"
+
+#: ../plugin.py:204
+msgid "Delete the selected local crash log"
+msgstr "Das ausgewählte lokale Crashlog löschen"
+
+#: ../plugin.py:389
+msgid "Delete the selected report from the receiver"
+msgstr "Den ausgewählten Bericht von der Box löschen"
+
+#: ../plugin.py:444
+msgid "Deleting the report. Please wait..."
+msgstr "Der Bericht wird gelöscht. Bitte warten..."
+
+#: ../plugin.py:308
+msgid "Deleting the selected local crash log..."
+msgstr "Ausgewähltes lokales Crashlog wird gelöscht..."
+
+#: ../plugin.py:652
+msgid "Developer"
+msgstr "Entwickler"
+
+#: ../plugin.py:744
+msgid "Enigma2 has created a new crash log. Would you like to report the problem now? No data will be sent without your confirmation."
+msgstr "Enigma2 hat ein neues Crashlog erstellt. Soll das Problem jetzt gemeldet werden? Ohne Bestätigung werden keine Daten gesendet."
+
+#: ../client.py:403
+msgid "Enter an answer or select a file."
+msgstr "Bitte eine Antwort eingeben oder eine Datei auswählen."
+
+#: ../plugin.py:90
+msgid "Feedback"
+msgstr "Rückfrage"
+
+#: ../plugin.py:529
+msgid "Finish"
+msgstr "Abschließen"
+
+#: ../plugin.py:90
+msgid "In Progress"
+msgstr "In Bearbeitung"
+
+#: ../setup.xml
+msgid "Include Enigma2 configuration files"
+msgstr "Enigma2-Konfigurationsdateien mitsenden"
+
+#: ../setup.xml
+msgid "Include additional logs"
+msgstr "Zusätzliche Logs mitsenden"
+
+#: ../setup.xml
+msgid "Include kernel and system logs"
+msgstr "Kernel- und Systemlogs mitsenden"
+
+#: ../setup.xml
+msgid "Include receiver information"
+msgstr "Box-Informationen mitsenden"
+
+#: ../setup.xml
+msgid "Include the matching debug log"
+msgstr "Das passende Debug-Log mitsenden"
+
+#: ../plugin.py:289 ../plugin.py:594
+msgid "Known usernames, passwords, API keys, tokens and URLs are removed before upload. Key files and known softcam files are excluded. Other personal information may remain. Reports are private and accessible to you and the OpenATV support team."
+msgstr "Erkannte Benutzernamen, Passwörter, API-Schlüssel, Tokens und URLs werden vor dem Hochladen entfernt. Schlüsseldateien und bekannte Softcam-Dateien werden ausgeschlossen. Andere persönliche Angaben können enthalten bleiben. Meldungen sind privat und nur für dich und das OpenATV-Supportteam zugänglich."
+
+#: ../client.py:180
+msgid "Logs and diagnostics exceed 16 MiB. Disable additional logs or configuration files and try again. Nothing was uploaded."
+msgstr "Logs und Diagnosedaten überschreiten 16 MiB. Zusätzliche Logs oder Konfigurationsdateien abwählen und erneut versuchen. Es wurde nichts hochgeladen."
+
+#: ../plugin.py:191
+msgid "Looking for crash logs..."
+msgstr "Crashlogs werden gesucht..."
+
+#: ../plugin.py:196
+msgid "MENU"
+msgstr "MENU"
+
+#: ../plugin.py:513
+msgid "Mark the ticket as resolved or close it"
+msgstr "Das Ticket als gelöst markieren oder schließen"
+
+#: ../plugin.py:209 ../plugin.py:393 ../plugin.py:518
+msgid "Move down a line"
+msgstr "Eine Zeile nach unten"
+
+#: ../plugin.py:210 ../plugin.py:394 ../plugin.py:519
+msgid "Move down a screen"
+msgstr "Eine Seite nach unten"
+
+#: ../plugin.py:206 ../plugin.py:390 ../plugin.py:515
+msgid "Move to first line / screen"
+msgstr "Zur ersten Zeile / Seite"
+
+#: ../plugin.py:211 ../plugin.py:395 ../plugin.py:520
+msgid "Move to last line / screen"
+msgstr "Zur letzten Zeile / Seite"
+
+#: ../plugin.py:208 ../plugin.py:392 ../plugin.py:517
+msgid "Move up a line"
+msgstr "Eine Zeile nach oben"
+
+#: ../plugin.py:207 ../plugin.py:391 ../plugin.py:516
+msgid "Move up a screen"
+msgstr "Eine Seite nach oben"
+
+#: ../plugin.py:378
+msgid "My Crash Reports"
+msgstr "Meine Fehlerberichte"
+
+#: ../plugin.py:195
+msgid "My Reports"
+msgstr "Meine Berichte"
+
+#: ../plugin.py:90
+msgid "New"
+msgstr "Neu"
+
+#: ../plugin.py:415
+msgid "New answer"
+msgstr "Neue Antwort"
+
+#: ../plugin.py:585
+msgid "New diagnostics with the current settings"
+msgstr "Neue Diagnosedaten mit den aktuellen Einstellungen"
+
+#: ../plugin.py:118
+msgid "No"
+msgstr "Nein"
+
+#: ../plugin.py:242
+msgid "No crash logs found."
+msgstr "Keine Crashlogs gefunden."
+
+#: ../plugin.py:103
+msgid "No longer available"
+msgstr "Nicht mehr verfügbar"
+
+#: ../plugin.py:427
+msgid "No reports were sent from this receiver yet."
+msgstr "Von dieser Box wurden noch keine Berichte gesendet."
+
+#: ../plugin.py:102
+msgid "Not submitted yet"
+msgstr "Noch nicht eingereicht"
+
+#: ../setup.xml
+msgid "Offer reporting after a crash"
+msgstr "Nach einem Absturz das Melden anbieten"
+
+#: ../client.py:96
+msgid "Only a selected crash log from the log folders can be deleted."
+msgstr "Es kann nur ein ausgewähltes Crashlog aus den Log-Ordnern gelöscht werden."
+
+#: ../plugin.py:201
+msgid "Open the Crash Reporter settings"
+msgstr "Die Fehlerbericht-Einstellungen öffnen"
+
+#: ../plugin.py:189
+msgid "OpenATV Crash Reporter"
+msgstr "OpenATV Crash Reporter"
+
+#: ../plugin.py:281
+msgid "OpenATV configuration files"
+msgstr "OpenATV-Konfigurationsdateien"
+
+#: ../plugin.py:313
+#, python-format
+msgid "Permanently delete this crash log from the receiver?\n\n%s\n\nThis cannot be undone. Other logs and uploaded reports are not affected."
+msgstr "Dieses Crashlog endgültig von der Box löschen?\n\n%s\n\nDies kann nicht rückgängig gemacht werden. Andere Logs und hochgeladene Berichte bleiben erhalten."
+
+#: ../plugin.py:339
+msgid "Preparing QR code..."
+msgstr "QR-Code wird erstellt..."
+
+#: ../plugin.py:257
+msgid "Preparing and sending the report in the background. Please wait..."
+msgstr "Der Bericht wird im Hintergrund vorbereitet und gesendet. Bitte warten..."
+
+#: ../plugin.py:120
+msgid "Problem solved"
+msgstr "Problem gelöst"
+
+#: ../plugin.py:146
+msgid "QR code unavailable. Please enter the number manually."
+msgstr "QR-Code nicht verfügbar. Bitte die Nummer manuell eingeben."
+
+#: ../plugin.py:382
+msgid "Refresh"
+msgstr "Aktualisieren"
+
+#: ../plugin.py:90
+msgid "Rejected"
+msgstr "Abgelehnt"
+
+#: ../plugin.py:288
+msgid "Report will contain"
+msgstr "Der Bericht enthält"
+
+#: ../plugin.py:90
+msgid "Resolved"
+msgstr "Gelöst"
+
+#: ../plugin.py:677
+msgid "Scan the QR code to open the ticket on a phone or PC. You may have to confirm your email again."
+msgstr "Den QR-Code scannen, um das Ticket am Handy oder PC zu öffnen. Eventuell muss die E-Mail-Adresse erneut bestätigt werden."
+
+#: ../plugin.py:342
+msgid "Scan the QR code, or enter the tracking number on the website."
+msgstr "QR-Code scannen oder die Meldenummer auf der Webseite eingeben."
+
+#: ../client.py:151
+msgid "Select a crash log first."
+msgstr "Zuerst ein Crashlog auswählen."
+
+#: ../plugin.py:238
+msgid "Select a crash log to be sent for analysis, scan the QR code or enter the tracking number on a phone or PC to complete and confirm your report."
+msgstr "Ein Crashlog zur Analyse auswählen und senden. Danach den QR-Code scannen oder die Trackingnummer am Handy oder PC eingeben, um den Bericht zu vervollständigen und zu bestätigen."
+
+#: ../plugin.py:427
+msgid "Select a report to read the answers. The QR code opens it on a phone or PC."
+msgstr "Einen Bericht auswählen, um die Antworten zu lesen. Der QR-Code öffnet ihn am Handy oder PC."
+
+#: ../plugin.py:236
+msgid "Send Log"
+msgstr "Log senden"
+
+#: ../plugin.py:514
+msgid "Send another log or the diagnostics"
+msgstr "Ein weiteres Log oder die Diagnosedaten senden"
+
+#: ../plugin.py:820
+#, python-format
+msgid "Send crash logs to OpenATV support and get a case tracking number. (Version %s)"
+msgstr "Crashlogs an den OpenATV-Support senden und eine Trackingnummer erhalten. (Version %s)"
+
+#: ../plugin.py:198 ../plugin.py:203
+msgid "Send the selected crash log"
+msgstr "Das ausgewählte Crashlog senden"
+
+#: ../plugin.py:285
+msgid "Send these logs to OpenATV?"
+msgstr "Diese Logs an OpenATV senden?"
+
+#: ../plugin.py:572
+#, python-format
+msgid "Send this answer to ticket #%s?"
+msgstr "Diese Antwort an Ticket #%s senden?"
+
+#: ../plugin.py:593
+#, python-format
+msgid "Send this to ticket #%s?"
+msgstr "Dies an Ticket #%s senden?"
+
+#: ../client.py:420
+#, python-format
+msgid "Sending failed. %s"
+msgstr "Senden fehlgeschlagen. %s"
+
+#: ../client.py:418
+#, python-format
+msgid "Sending rejected (HTTP %d). %s"
+msgstr "Senden abgelehnt (HTTP %d). %s"
+
+#: ../plugin.py:539 ../plugin.py:628
+#, python-format
+msgid "Sending to ticket #%s in the background. Please wait..."
+msgstr "Wird im Hintergrund an Ticket #%s gesendet. Bitte warten..."
+
+#: ../plugin.py:643
+msgid "Sent"
+msgstr "Gesendet"
+
+#: ../plugin.py:616 ../plugin.py:620
+#, python-format
+msgid "Sent to ticket #%s. Thank you!"
+msgstr "An Ticket #%s gesendet. Danke!"
+
+#: ../plugin.py:463 ../plugin.py:466 ../plugin.py:468
+msgid "Should the report be deleted?"
+msgstr "Soll der Bericht gelöscht werden?"
+
+#: ../plugin.py:561
+msgid "Should the ticket be finished?"
+msgstr "Soll das Ticket abgeschlossen werden?"
+
+#: ../plugin.py:385
+msgid "Show the selected report and the answers"
+msgstr "Den ausgewählten Bericht und die Antworten anzeigen"
+
+#: ../plugin.py:205
+msgid "Show the sent reports and the answers"
+msgstr "Die gesendeten Berichte und die Antworten anzeigen"
+
+#: ../plugin.py:646
+msgid "Status"
+msgstr "Status"
+
+#: ../setup.xml
+msgid "Tell me about answers to my reports"
+msgstr "Über Antworten auf meine Berichte informieren"
+
+#: ../client.py:375
+msgid "The answer is too long or contains invalid characters."
+msgstr "Die Antwort ist zu lang oder enthält ungültige Zeichen."
+
+#: ../client.py:206 ../client.py:408
+msgid "The compressed report exceeds 4 MiB. Nothing was uploaded."
+msgstr "Der komprimierte Bericht überschreitet 4 MiB. Es wurde nichts hochgeladen."
+
+#: ../client.py:102
+msgid "The crash log has changed. Nothing was deleted."
+msgstr "Das Crashlog wurde geändert. Es wurde nichts gelöscht."
+
+#: ../client.py:138
+msgid "The log changed while it was read. Please try again."
+msgstr "Das Log wurde während des Lesens geändert. Bitte erneut versuchen."
+
+#: ../client.py:135 ../client.py:160 ../client.py:395
+msgid "The logs exceed 16 MiB. Nothing was uploaded."
+msgstr "Die Logs überschreiten 16 MiB. Es wurde nichts hochgeladen."
+
+#: ../plugin.py:650
+#, python-format
+msgid "The newest %d of %d answers:"
+msgstr "Die neuesten %d von %d Antworten:"
+
+#: ../client.py:203
+msgid "The report exceeds the server size limit. Nothing was uploaded."
+msgstr "Der Bericht überschreitet die Größenbegrenzung des Servers. Es wurde nichts hochgeladen."
+
+#: ../client.py:382
+msgid "The report server does not accept answers from the receiver yet."
+msgstr "Der Berichtsserver nimmt noch keine Antworten von der Box an."
+
+#: ../client.py:199
+msgid "The report server does not support diagnostics yet. Nothing was uploaded."
+msgstr "Der Berichtsserver unterstützt noch keine Diagnosedaten. Es wurde nichts hochgeladen."
+
+#: ../client.py:277
+msgid "The report server does not support the report status yet."
+msgstr "Der Berichtsserver unterstützt die Statusabfrage noch nicht."
+
+#: ../client.py:285 ../client.py:344 ../client.py:380
+msgid "The report server is not reachable. Please try again later."
+msgstr "Der Berichtsserver ist nicht erreichbar. Bitte später erneut versuchen."
+
+#: ../client.py:342
+#, python-format
+msgid "The report server rejected the request (HTTP %d)."
+msgstr "Der Berichtsserver hat die Anfrage abgelehnt (HTTP %d)."
+
+#: ../client.py:283
+#, python-format
+msgid "The report status is not available (HTTP %d)."
+msgstr "Der Berichtsstatus ist nicht verfügbar (HTTP %d)."
+
+#: ../plugin.py:452
+msgid "The report was deleted from the receiver."
+msgstr "Der Bericht wurde von der Box gelöscht."
+
+#: ../plugin.py:457
+#, python-format
+msgid "The report was not deleted. %s"
+msgstr "Der Bericht wurde nicht gelöscht. %s"
+
+#: ../client.py:141
+msgid "The selected file contains binary data, not a text log."
+msgstr "Die ausgewählte Datei enthält Binärdaten und ist kein Textlog."
+
+#: ../client.py:133
+msgid "The selected log is not a regular, non-empty file."
+msgstr "Das ausgewählte Log ist keine reguläre Datei oder ist leer."
+
+#: ../client.py:41
+msgid "The server redirected the upload. Nothing was uploaded."
+msgstr "Der Server hat das Hochladen umgeleitet. Es wurde nichts hochgeladen."
+
+#: ../client.py:220
+msgid "The server returned an invalid tracking number or model."
+msgstr "Der Server hat eine ungültige Meldenummer oder ein ungültiges Boxmodell zurückgegeben."
+
+#: ../client.py:242
+msgid "The tracking details could not be saved on the receiver. Please write down the number."
+msgstr "Die Trackingdaten konnten auf der Box nicht gespeichert werden. Bitte die Nummer notieren."
+
+#: ../plugin.py:354 ../plugin.py:682
+msgid "The tracking number is filled in automatically."
+msgstr "Die Meldenummer wird automatisch übernommen."
+
+#: ../plugin.py:657
+msgid "There are no answers yet."
+msgstr "Es gibt noch keine Antworten."
+
+#: ../plugin.py:663
+msgid "This report is no longer available on the report server. A report that was not completed on the website is deleted after 48 hours."
+msgstr "Dieser Bericht ist auf dem Berichtsserver nicht mehr verfügbar. Ein Bericht, der auf der Webseite nicht vervollständigt wurde, wird nach 48 Stunden gelöscht."
+
+#: ../plugin.py:660
+#, python-format
+msgid "This report was not submitted yet. Scan the QR code and complete it on the website until %s."
+msgstr "Dieser Bericht wurde noch nicht eingereicht. Den QR-Code scannen und ihn bis %s auf der Webseite vervollständigen."
+
+#: ../plugin.py:646
+msgid "Ticket"
+msgstr "Ticket"
+
+#: ../plugin.py:553
+#, python-format
+msgid "Ticket #%s now has the status %s."
+msgstr "Ticket #%s hat jetzt den Status %s."
+
+#: ../plugin.py:642
+msgid "Tracking number"
+msgstr "Trackingnummer"
+
+#: ../plugin.py:270
+#, python-format
+msgid ""
+"Tracking: %s\n"
+"%s\n"
+"Sign in and complete the report within 48 hours."
+msgstr ""
+"Meldenummer: %s\n"
+"%s\n"
+"Anmelden und den Bericht innerhalb von 48 Stunden vervollständigen."
+
+#: ../plugin.py:290
+msgid "Unconfirmed uploads will expire and be deleted after 48 hours. Your local files are not affected."
+msgstr "Nicht bestätigte Uploads verfallen und werden nach 48 Stunden gelöscht. Die lokalen Dateien bleiben erhalten."
+
+#: ../client.py:218
+#, python-format
+msgid "Upload failed. The local logs were not deleted. %s"
+msgstr "Hochladen fehlgeschlagen. Die lokalen Logs wurden nicht gelöscht. %s"
+
+#: ../client.py:216
+#, python-format
+msgid "Upload rejected (HTTP %d). %s"
+msgstr "Upload abgelehnt (HTTP %d). %s"
+
+#: ../plugin.py:587
+#, python-format
+msgid "What should be added to ticket #%s?"
+msgstr "Was soll zu Ticket #%s hinzugefügt werden?"
+
+#: ../setup.xml
+msgid "When enabled, a pop up will be shown in the InfoBar to remind the user to submit the crash report."
+msgstr "Wenn aktiviert, wird in der Infoleiste ein Hinweis angezeigt, der an das Senden des Fehlerberichts erinnert."
+
+#: ../setup.xml
+msgid "When enabled, include additional logs from temporary and other log folders into the report."
+msgstr "Wenn aktiviert, werden zusätzliche Logs aus temporären und weiteren Log-Ordnern mitgesendet."
+
+#: ../setup.xml
+msgid "When enabled, include kernel and system logs into the report."
+msgstr "Wenn aktiviert, werden Kernel- und Systemlogs mitgesendet."
+
+#: ../setup.xml
+msgid "When enabled, include receiver, image and installed plugin information into the report."
+msgstr "Wenn aktiviert, werden Informationen zu Box, Image und installierten Plugins mitgesendet."
+
+#: ../setup.xml
+msgid "When enabled, include the OpenATV configuration files into the report."
+msgstr "Wenn aktiviert, werden die OpenATV-Konfigurationsdateien mitgesendet."
+
+#: ../setup.xml
+msgid "When enabled, include the matching debug log related to the crash log into the report."
+msgstr "Wenn aktiviert, wird das zum Crashlog passende Debug-Log mitgesendet."
+
+#: ../setup.xml
+msgid "When enabled, the receiver asks the report server once after the start whether a developer answered one of your reports."
+msgstr "Wenn aktiviert, fragt die Box nach dem Start einmal beim Berichtsserver nach, ob ein Entwickler auf einen deiner Berichte geantwortet hat."
+
+#: ../plugin.py:512
+msgid "Write an answer for the developers"
+msgstr "Eine Antwort an die Entwickler schreiben"
+
+
+#: ../plugin.py:652
+msgid "You"
+msgstr "Du"
+
+#: ../plugin.py:283
+msgid "additional logs"
+msgstr "zusätzliche Logs"
+
+#: ../plugin.py:282
+msgid "kernel and system logs"
+msgstr "Kernel- und Systemlogs"
+
+#: ../plugin.py:280
+msgid "receiver, image and installed plugins"
+msgstr "Box, Image und installierte Plugins"

@@ -1,13 +1,13 @@
 from setuptools import setup
-import setup_translate
+from setup_translate import cmdclass
 
-pkg = 'Extensions.CrashReport'
-setup(name='enigma2-plugin-extensions-crashreport',
-       version='0.3',
+pkg = 'Extensions.CrashReporter'
+setup(name='enigma2-plugin-extensions-crashreporter',
+       version='0.5',
        description='OpenATV private crash reports and receiver diagnostics',
-       package_dir={pkg: 'CrashReport'},
+       package_dir={pkg: 'CrashReporter'},
        packages=[pkg],
-       package_data={pkg: ['*.png', 'locale/*/LC_MESSAGES/*.mo']},
-       data_files=[('/usr/bin', ['bin/crashreport'])],
-       cmdclass=setup_translate.cmdclass,  # for translation
+       package_data={pkg: ['*.png', 'setup.xml', 'locale/*/LC_MESSAGES/*.mo']},
+       data_files=[('/usr/bin', ['bin/crashreporter'])],
+       cmdclass=cmdclass,  # for translation
       )
