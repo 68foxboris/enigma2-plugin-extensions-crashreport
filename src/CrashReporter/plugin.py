@@ -1,8 +1,3 @@
-from os import close, unlink
-from PIL import Image
-from qrcode import QRCode
-from qrcode.constants import ERROR_CORRECT_M
-from tempfile import mkstemp
 from time import localtime, strftime
 from twisted.internet.threads import deferToThread
 
@@ -12,7 +7,7 @@ from Components.ActionMap import HelpableActionMap
 from Components.config import ConfigSubsection, ConfigYesNo, config
 from Components.Label import Label
 from Components.MenuList import MenuList
-from Components.Pixmap import Pixmap
+from Components.QRCode import QRCode
 from Components.ScrollLabel import ScrollLabel
 from Components.Sources.StaticText import StaticText
 from Components.SystemInfo import BoxInfo, getBoxDisplayName
@@ -23,7 +18,6 @@ from Screens.Screen import Screen
 from Screens.Setup import Setup
 from Screens.VirtualKeyBoard import VirtualKeyBoard
 from Tools.Notifications import AddModalNotification
-from Tools.LoadPixmap import LoadPixmap
 
 from . import PluginLanguageDomain, _, __version__
 from .client import ReportError, reportClient
@@ -42,39 +36,12 @@ crashReminder = None
 
 
 class ReportHelper:
-	QR_SIZE = 320
-
 	def errorText(self, error):
 		if isinstance(error, ReportError):
 			text = _(error.args[0]) % error.args[1:] if len(error.args) > 1 else _(error.args[0])
 		else:
 			text = _(str(error))
 		return text
-
-	def createQrCode(self, url, size):  # Create the QR code locally, so no QR service gets the tracking number.
-		code = QRCode(error_correction=ERROR_CORRECT_M, border=4)
-		code.add_data(url)
-		code.make(fit=True)
-		code.box_size = max(1, min(12, size // (code.modules_count + 8)))
-		image = code.make_image(fill_color="black", back_color="white").get_image().convert("RGB")
-		if image.width > size:
-			raise ValueError("The report URL is too long for the QR code.")
-		canvas = Image.new("RGB", (size, size), "white")
-		canvas.paste(image, ((size - image.width) // 2, (size - image.height) // 2))
-		fd, path = mkstemp(prefix="openatv-report-", suffix=".png")
-		close(fd)
-		try:
-			canvas.save(path, "PNG")
-		except Exception:
-			self.removeQrFile(path)
-			raise
-		return path
-
-	def removeQrFile(self, path):
-		try:
-			unlink(path)
-		except OSError:
-			pass
 
 	def reportUrl(self, tracking):
 		return f"{reportClient.SERVER}/crash-reports#report={tracking}"
@@ -116,41 +83,20 @@ reportHelper = ReportHelper()
 
 
 class QrCodeScreen(Screen):
-	def __init__(self, session, qrStatus=""):
+	def __init__(self, session):
 		Screen.__init__(self, session, enableHelp=True)
-		self["qr"] = Pixmap()
-		self["qrStatus"] = Label(qrStatus)
+		self["qr"] = QRCode()  # Drawn by Enigma2 itself, so no QR service gets the tracking number.
+		self["qrStatus"] = Label()
 		self.uiClosed = False
-		self.qrPath = None
 		self.onClose.append(self.qrScreenClosed)
 
 	def showQrCode(self, url, readyText):
-		def createQrCallback(path):
-			if self.uiClosed:
-				reportHelper.removeQrFile(path)
-			else:
-				self.removeQrCode()
-				self.qrPath = path
-				self["qr"].instance.setPixmap(LoadPixmap(path))
-				self["qr"].show()
-				self["qrStatus"].setText(readyText)
-
-		def createQrFailed(failure):
-			if not self.uiClosed:
-				self["qrStatus"].setText(_("QR code unavailable. Please enter the number manually."))
-
-		if self["qr"].instance:
-			widgetSize = self["qr"].instance.size()
-			deferToThread(reportHelper.createQrCode, url, min(widgetSize.width(), widgetSize.height()) or reportHelper.QR_SIZE).addCallbacks(createQrCallback, createQrFailed)
-
-	def removeQrCode(self):
-		if self.qrPath:
-			reportHelper.removeQrFile(self.qrPath)
-			self.qrPath = None
+		self["qr"].setText(url)
+		self["qr"].show()
+		self["qrStatus"].setText(readyText)
 
 	def qrScreenClosed(self):
 		self.uiClosed = True
-		self.removeQrCode()
 
 
 class CrashReporter(Screen):
@@ -319,7 +265,7 @@ class CrashReporterResult(QrCodeScreen):
 		<widget name="intro" position="30,25" size="700,60" font="Regular;24" />
 		<widget name="tracking" position="30,95" size="655,70" font="Regular;44" />
 		<widget name="details" position="30,185" size="645,245" font="Regular;23" />
-		<widget name="qr" position="770,25" size="300,300" alphatest="off" />
+		<widget name="qr" position="770,25" size="300,300" />
 		<widget name="qrStatus" position="750,350" size="340,100" font="Regular;19" horizontalAlignment="center" />
 		<widget source="key_red" render="Label" position="30,e-50" size="180,40" backgroundColor="key_red" font="Regular;20" foregroundColor="key_text" horizontalAlignment="center" verticalAlignment="center">
 			<convert type="ConditionalShowHide" />
@@ -330,7 +276,7 @@ class CrashReporterResult(QrCodeScreen):
 	</screen>"""
 
 	def __init__(self, session, result):
-		QrCodeScreen.__init__(self, session, _("Preparing QR code..."))
+		QrCodeScreen.__init__(self, session)
 		self.setTitle(_("Complete Your Crash Report"))
 		self.result = result
 		self["intro"] = Label(_("Scan the QR code, or enter the tracking number on the website."))
@@ -471,7 +417,7 @@ class CrashReporterReport(QrCodeScreen):
 	skin = """
 	<screen name="CrashReporterReport" title="Crash Report" position="center,center" size="1100,540" resolution="1280,720">
 		<widget name="text" position="30,25" size="700,e-95" font="Regular;22" scrollbarMode="showOnDemand" />
-		<widget name="qr" position="770,25" size="300,300" alphatest="off" />
+		<widget name="qr" position="770,25" size="300,300" />
 		<widget name="qrStatus" position="750,350" size="340,100" font="Regular;19" horizontalAlignment="center" />
 		<widget source="key_red" render="Label" position="30,e-50" size="180,40" backgroundColor="key_red" font="Regular;20" foregroundColor="key_text" horizontalAlignment="center" verticalAlignment="center">
 			<convert type="ConditionalShowHide" />

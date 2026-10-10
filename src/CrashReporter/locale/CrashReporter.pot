@@ -283,9 +283,6 @@ msgid ""
 "This cannot be undone. Other logs and uploaded reports are not affected."
 msgstr ""
 
-#: ../plugin.py:339
-msgid "Preparing QR code..."
-msgstr ""
 
 #: ../plugin.py:257
 msgid "Preparing and sending the report in the background. Please wait..."
@@ -295,9 +292,6 @@ msgstr ""
 msgid "Problem solved"
 msgstr ""
 
-#: ../plugin.py:146
-msgid "QR code unavailable. Please enter the number manually."
-msgstr ""
 
 #: ../plugin.py:382
 msgid "Refresh"

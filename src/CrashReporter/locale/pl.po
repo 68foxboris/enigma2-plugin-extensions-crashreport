@@ -292,9 +292,6 @@ msgstr ""
 "\n"
 "Tej operacji nie można cofnąć. Inne logi i wysłane zgłoszenia zostaną zachowane."
 
-#: ../plugin.py:339
-msgid "Preparing QR code..."
-msgstr "Przygotowywanie kodu QR..."
 
 #: ../plugin.py:257
 msgid "Preparing and sending the report in the background. Please wait..."
@@ -304,9 +301,6 @@ msgstr "Przygotowywanie i wysyłanie zgłoszenia w tle. Proszę czekać..."
 msgid "Problem solved"
 msgstr "Problem rozwiązany"
 
-#: ../plugin.py:146
-msgid "QR code unavailable. Please enter the number manually."
-msgstr "Kod QR niedostępny. Wprowadź numer ręcznie."
 
 #: ../plugin.py:382
 msgid "Refresh"

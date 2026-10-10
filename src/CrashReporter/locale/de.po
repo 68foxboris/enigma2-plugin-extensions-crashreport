@@ -281,9 +281,6 @@ msgstr "OpenATV-Konfigurationsdateien"
 msgid "Permanently delete this crash log from the receiver?\n\n%s\n\nThis cannot be undone. Other logs and uploaded reports are not affected."
 msgstr "Dieses Crashlog endgültig von der Box löschen?\n\n%s\n\nDies kann nicht rückgängig gemacht werden. Andere Logs und hochgeladene Berichte bleiben erhalten."
 
-#: ../plugin.py:339
-msgid "Preparing QR code..."
-msgstr "QR-Code wird erstellt..."
 
 #: ../plugin.py:257
 msgid "Preparing and sending the report in the background. Please wait..."
@@ -293,9 +290,6 @@ msgstr "Der Bericht wird im Hintergrund vorbereitet und gesendet. Bitte warten..
 msgid "Problem solved"
 msgstr "Problem gelöst"
 
-#: ../plugin.py:146
-msgid "QR code unavailable. Please enter the number manually."
-msgstr "QR-Code nicht verfügbar. Bitte die Nummer manuell eingeben."
 
 #: ../plugin.py:382
 msgid "Refresh"
