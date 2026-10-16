@@ -105,6 +105,10 @@ msgstr "Log awarii"
 msgid "Current debug log"
 msgstr "Bieżący log debugowania"
 
+#: ../plugin.py:520
+msgid "Debug log"
+msgstr "Log debugowania"
+
 #: ../plugin.py:417
 msgid "Delete"
 msgstr "Usuń"
