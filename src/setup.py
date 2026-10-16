@@ -3,7 +3,7 @@ from setup_translate import cmdclass
 
 pkg = 'Extensions.CrashReporter'
 setup(name='enigma2-plugin-extensions-crashreporter',
-       version='0.5',
+       version='0.6',
        description='OpenATV private crash reports and receiver diagnostics',
        package_dir={pkg: 'CrashReporter'},
        packages=[pkg],

@@ -1,12 +1,13 @@
 """Collect receiver diagnostics and remove private data. No Enigma2 imports, cli.py uses this module too."""
+from collections import deque
 from datetime import datetime, timezone
 from fnmatch import fnmatchcase
-from os import O_DIRECTORY, O_NOFOLLOW, O_NONBLOCK, O_RDONLY, close, fdopen, fstat, open as osOpen, read, scandir, stat, supports_dir_fd, uname, walk
+from os import O_DIRECTORY, O_NOFOLLOW, O_NONBLOCK, O_RDONLY, close, fdopen, fstat, getpid, lstat, open as osOpen, read, scandir, stat, statvfs, supports_dir_fd, uname, walk
 from os.path import basename, join
 from pathlib import Path
 from re import I, compile, escape, search, sub
 from selectors import DefaultSelector, EVENT_READ
-from stat import S_ISREG
+from stat import S_ISDIR, S_ISREG
 from subprocess import DEVNULL, PIPE, Popen, STDOUT, SubprocessError
 from time import monotonic
 
@@ -18,6 +19,23 @@ MAX_EXTRA_LOGS = 12
 MAX_NOTES = 300
 MAX_SECONDS = 20
 MAX_LINE_LENGTH = 16384
+MAX_STORAGE_SECONDS = 10
+MAX_LARGEST_FOLDERS = 25
+MAX_CRASH_LOGS = 50
+MAX_PROCESSES = 15
+BACKUP_NAME = compile(r"(?:_org|\.del|\.bak|\.old|~)$")  # Copies of bouquets and lists, they only fill the archive.
+CRASH_NAME = compile(r"(?:-enigma\d?-crash|^enigma2_crash(?:_[\w-]+)?)\.log$")  # Same as CRASH_PATTERN in client.py.
+PSEUDO_FILE_SYSTEMS = {"autofs", "binfmt_misc", "bpf", "cgroup", "cgroup2", "configfs", "debugfs", "devpts", "devtmpfs", "efivarfs", "fusectl", "hugetlbfs", "mqueue", "nfsd", "nsfs", "proc", "pstore", "rootfs", "rpc_pipefs", "securityfs", "selinuxfs", "sysfs", "tracefs"}
+NETWORK_FILE_SYSTEMS = ("9p", "ceph", "cifs", "davfs", "fuse.", "glusterfs", "nfs", "smb")  # The share can contain a server and user name, and statvfs() can hang.
+STORAGE_PATHS = (  # Settings with a folder that can fill the flash, and the default value.
+	("config.usage.default_path", "/media/hdd/movie/"),
+	("config.usage.timer_path", ""),
+	("config.usage.instantrec_path", ""),
+	("config.timeshift.path", "/media/hdd/timeshift/"),
+	("config.misc.epgcachepath", "/etc/enigma2/"),
+	("config.crash.debug_path", "/home/root/logs/")
+)
+WATCHED_FOLDERS = ("/etc/enigma2", "/home/root/logs", "/picon", "/usr/lib/enigma2/python/Plugins", "/usr/share/enigma2", "/usr/share/enigma2/picon", "/var/lib/opkg", "/var/log")
 CONFIGURATION_NAMES = (  # Only these files from /etc/enigma2 are collected.
 	"settings",
 	"lamedb",
@@ -100,6 +118,19 @@ def sanitizeText(text, settingsFile=False):
 	return text
 
 
+def formatSize(size):
+	units = ("B", "KiB", "MiB", "GiB", "TiB")
+	index = 0
+	while size >= 1024 and index < len(units) - 1:
+		size /= 1024
+		index += 1
+	return f"{size:.0f} {units[index]}" if index == 0 else f"{size:.1f} {units[index]}"
+
+
+def formatPercent(used, total):
+	return f"{(used * 100 + total - 1) // total}%" if total else "-"  # Rounded up like df.
+
+
 def decodeText(data):
 	text = data.decode("UTF-8", errors="replace")
 	if any(ord(x) < 32 and x not in "\r\n\t\x1b" for x in text):
@@ -176,11 +207,14 @@ class Collector:
 		self.fileNames = set()
 		self.totalBytes = 0
 		self.notes = []
+		self.droppedNotes = {}
 		self.startTime = monotonic()
 
 	def addNote(self, path, reason):
 		if len(self.notes) < MAX_NOTES:
 			self.notes.append(f"{str(path)[:160]}: {reason}")
+		else:  # Count the rest, so the manifest still shows what was omitted.
+			self.droppedNotes[reason] = self.droppedNotes.get(reason, 0) + 1
 
 	def addText(self, name, text, settingsFile=False):
 		if len(name) > 200 or any(not SAFE_NAME.fullmatch(x) or ".." in x or SECRET_NAME.search(x) for x in name.split("/")):
@@ -208,8 +242,9 @@ class Collector:
 	def collectReceiverInfo(self):
 		system = uname()
 		self.addText("system/box-info.txt", f"Collected UTC: {datetime.now(timezone.utc).isoformat()}\nKernel: {system.release}\nArchitecture: {system.machine}\n")
-		for source in ("/usr/lib/enigma.info", "/etc/image-version", "/etc/os-release", "/proc/stb/info/model", "/proc/stb/info/boxtype", "/proc/bus/nim_sockets", "/proc/cpuinfo", "/proc/meminfo", "/proc/uptime", "/proc/modules", "/proc/cmdline"):
+		for source in ("/usr/lib/enigma.info", "/etc/image-version", "/etc/os-release", "/proc/stb/info/model", "/proc/stb/info/boxtype", "/proc/bus/nim_sockets", "/proc/cpuinfo", "/proc/meminfo", "/proc/swaps", "/proc/loadavg", "/proc/uptime", "/proc/modules", "/proc/cmdline"):
 			self.addFile(source, join("system", f"{basename(source)}.txt"), virtualFile=source.startswith("/proc/"))
+		self.collectProcesses()
 		try:
 			packages = self.command(["opkg", "list-installed"])
 			self.addText("system/packages.txt", packages)
@@ -230,12 +265,33 @@ class Collector:
 				self.addNote(category, "plugin folder unavailable")
 		self.addText("system/plugin-directories.txt", "\n".join(sorted(plugins)) + "\n")
 
+	def collectProcesses(self):
+		# Only the short process name from the kernel, the command line can contain passwords.
+		processes = []
+		try:
+			with scandir(self.root / "proc") as entries:
+				for entry in entries:
+					if entry.name.isdigit():
+						try:
+							values = dict(x.split(":", 1) for x in readFile(join(entry.path, "status"), virtualFile=True).splitlines() if ":" in x)
+							if "VmRSS" in values:  # Kernel threads have no memory of their own.
+								processes.append((int(values["VmRSS"].split()[0]), int(values.get("VmSwap", "0 kB").split()[0]), entry.name, values.get("Name", "").strip(), values.get("State", "").strip()[:1], values.get("Threads", "").strip()))
+						except (OSError, ValueError):  # The process has ended.
+							pass
+		except OSError:
+			self.addNote("/proc", "process list unavailable")
+		if processes:
+			lines = [f"Processes with memory: {len(processes)}, largest {MAX_PROCESSES} by resident memory (RSS).", "", f"{'PID':>6}  {'RSS':>10}  {'Swap':>10}  State  Threads  Name"]
+			lines.extend(f"{x[2]:>6}  {formatSize(x[0] * 1024):>10}  {formatSize(x[1] * 1024):>10}  {x[4]:<5}  {x[5]:>7}  {x[3]}" for x in sorted(processes, reverse=True)[:MAX_PROCESSES])
+			self.addText("system/processes.txt", "\n".join(lines) + "\n")
+
 	def collectConfiguration(self):
 		folder = self.root / "etc/enigma2"
 		if folder.is_symlink():
 			self.addNote("/etc/enigma2", "symbolic link folder omitted")
 		else:
 			fileCount = 0
+			backupCount = 0
 			for directory, directories, files in walk(folder, followlinks=False):
 				relative = Path(directory).relative_to(folder)
 				directories[:] = sorted(x for x in directories if len(relative.parts) < 2 and SAFE_NAME.fullmatch(x) and not SECRET_NAME.search(x) and not (Path(directory) / x).is_symlink())[:64]
@@ -243,12 +299,18 @@ class Collector:
 					fileCount += 1
 					if fileCount > MAX_SCAN:
 						self.addNote("/etc/enigma2", "configuration scan limit reached")
-						return
+						break
 					path = join("/etc/enigma2", relative / name)
-					if SAFE_NAME.fullmatch(name) and not SECRET_NAME.search(name) and any(fnmatchcase(name, x) for x in CONFIGURATION_NAMES):
+					if BACKUP_NAME.search(name):
+						backupCount += 1
+					elif SAFE_NAME.fullmatch(name) and not SECRET_NAME.search(name) and any(fnmatchcase(name, x) for x in CONFIGURATION_NAMES):
 						self.addFile(path)
 					else:
 						self.addNote(path, "not an approved configuration file; omitted")
+				if fileCount > MAX_SCAN:
+					break
+			if backupCount:
+				self.addNote("/etc/enigma2", f"{backupCount} backup copies (_org, .del, .bak, .old, ~) omitted")
 
 	def collectSystemLogs(self):
 		try:
@@ -289,18 +351,134 @@ class Collector:
 			else:
 				self.addNote(path, "only the 12 newest additional logs are included")
 
+	def readMounts(self):
+		mounts = []
+		try:  # /proc/mounts and /proc/self are links, readFile() doesn't follow them.
+			for line in readFile(self.root / "proc" / str(getpid()) / "mounts", virtualFile=True).splitlines():
+				fields = line.split()
+				if len(fields) > 2 and fields[2] not in PSEUDO_FILE_SYSTEMS:
+					device, mountPoint = (sub(r"\\([0-7]{3})", lambda found: chr(int(found[1], 8)), x) for x in fields[:2])  # A space is written as \040.
+					mounts.append((device, mountPoint, fields[2]))
+		except (OSError, ValueError):
+			self.addNote("/proc/mounts", "unavailable")
+		return mounts
+
+	def collectStorage(self, directories):
+		mounts = self.readMounts()
+		mountNames = {}
+		lines = ["File systems (like df -h and df -i):", "", f"{'Filesystem':<24} {'Type':<10} {'Size':>10} {'Used':>10} {'Avail':>10} {'Use%':>5} {'Inodes':>9} {'IUsed':>9} {'IFree':>9} {'IUse%':>5}  Mounted on"]
+		for device, mountPoint, fileSystem in mounts:
+			if fileSystem.startswith(NETWORK_FILE_SYSTEMS):
+				lines.append(f"{'[network share]':<24} {fileSystem:<10} not checked  {mountPoint}")
+			else:
+				try:
+					physicalPath = self.root / mountPoint.lstrip("/")
+					info = statvfs(physicalPath)
+					used = (info.f_blocks - info.f_bfree) * info.f_frsize
+					available = info.f_bavail * info.f_frsize
+					usedInodes = info.f_files - info.f_ffree
+					inodes = (info.f_files, usedInodes, info.f_ffree) if info.f_files else ("-", "-", "-")  # Some file systems like vfat have no inodes.
+					lines.append(f"{device:<24} {fileSystem:<10} {formatSize(info.f_blocks * info.f_frsize):>10} {formatSize(used):>10} {formatSize(available):>10} {formatPercent(used, used + available):>5} {inodes[0]:>9} {inodes[1]:>9} {inodes[2]:>9} {formatPercent(usedInodes, info.f_files):>5}  {mountPoint}")
+					mountNames.setdefault(stat(physicalPath).st_dev, f"{mountPoint} ({device})")
+				except OSError:
+					lines.append(f"{device:<24} {fileSystem:<10} unavailable  {mountPoint}")
+		try:
+			rootDevice = lstat(self.root).st_dev
+		except OSError:
+			rootDevice = None
+		# Configured folders for recordings, timeshift, EPG and logs. On the flash they can fill it up.
+		settings = {}
+		try:
+			settings = dict(x.split("=", 1) for x in readFile(self.root / "etc/enigma2/settings").splitlines() if "=" in x)
+		except (OSError, ValueError):
+			self.addNote("/etc/enigma2/settings", "unavailable for the storage paths")
+		lines.extend(("", "Configured folders:", ""))
+		for key, default in STORAGE_PATHS:
+			path = settings.get(key, default)
+			if path.startswith("/"):
+				try:
+					device = stat(self.root / path.lstrip("/")).st_dev
+					location = "on the root file system (flash)" if device == rootDevice else f"on {mountNames.get(device, 'another file system')}"
+					if device == rootDevice and key not in ("config.misc.epgcachepath", "config.crash.debug_path"):
+						location = f"WARNING: {location}"
+				except OSError:
+					location = "missing"
+				lines.append(f"{key} = {path}  {location}")
+		epgName = settings.get("config.misc.epgcachefilename", "epg").replace(".dat", "")
+		epgPath = join(settings.get("config.misc.epgcachepath", "/etc/enigma2/"), f"{epgName}.dat")
+		try:
+			lines.append(f"EPG cache file {epgPath}: {formatSize(stat(self.root / epgPath.lstrip('/')).st_size)}")
+		except OSError:
+			lines.append(f"EPG cache file {epgPath}: missing")
+		# Sizes of the folders on the root file system. Mounted devices have another st_dev and are not included.
+		usage = {}  # Folder: [bytes on disk, entries inside].
+		queue = deque(((self.root, "/", ()),))  # Breadth first, so a stopped scan still covers all top folders.
+		deadline = monotonic() + MAX_STORAGE_SECONDS
+		complete = rootDevice is not None
+		while queue and complete:
+			physicalPath, path, keys = queue.popleft()
+			try:
+				with scandir(physicalPath) as entries:
+					for entry in entries:
+						try:
+							info = entry.stat(follow_symlinks=False)
+						except OSError:
+							continue
+						if info.st_dev == rootDevice:
+							entryPath = join(path, entry.name)
+							entryKeys = (*keys, entryPath) if entryPath.count("/") <= 2 or entryPath in WATCHED_FOLDERS else keys
+							for key in entryKeys:
+								usage.setdefault(key, [0, 0])[0] += info.st_blocks * 512
+							for key in keys:
+								usage[key][1] += 1
+							if S_ISDIR(info.st_mode):
+								queue.append((entry.path, entryPath, entryKeys))
+			except OSError:
+				pass
+			complete = monotonic() < deadline
+		mountPoints = {x[1] for x in mounts}
+		hiddenFolders = [x for x in sorted(usage) if x.startswith("/media/") and x.count("/") == 2 and x not in mountPoints and usage[x][1]]
+		lines.extend(("", "Folders in /media with data on the root file system (no device mounted):", ""))
+		lines.extend([f"WARNING: {x} contains {usage[x][1]} files and folders ({formatSize(usage[x][0])}). Recordings or other files were written to the flash." for x in hiddenFolders] or ["None"])
+		lines.extend(("", f"Largest folders on the root file system, {MAX_LARGEST_FOLDERS} of the first two levels (size on disk, entries):", ""))
+		lines.extend(f"{formatSize(usage[x][0]):>10} {usage[x][1]:>8}  {x}" for x in sorted((x for x in usage if x.count("/") <= 2), key=lambda x: usage[x][0], reverse=True)[:MAX_LARGEST_FOLDERS])
+		lines.extend(("", "Other folders that often fill the flash:", ""))
+		lines.extend([f"{formatSize(usage[x][0]):>10} {usage[x][1]:>8}  {x}" for x in WATCHED_FOLDERS if x in usage] or ["None"])
+		if not complete:
+			lines.extend(("", f"The folder scan stopped after {MAX_STORAGE_SECONDS} seconds, the sizes are incomplete."))
+		self.addText("system/storage.txt", "\n".join(lines) + "\n")
+		# The number and the times of the crashes show whether the receiver crashes often.
+		crashLogs = {}
+		for source in dict.fromkeys(("/home/root/logs", "/tmp", *directories)):
+			try:
+				with scandir(self.root / source.lstrip("/")) as entries:
+					for index, entry in enumerate(entries):
+						if index >= MAX_SCAN:
+							break
+						if CRASH_NAME.search(entry.name) and entry.is_file(follow_symlinks=False):
+							info = entry.stat(follow_symlinks=False)
+							crashLogs[(info.st_dev, info.st_ino)] = (info.st_mtime, info.st_size, join(source, entry.name))
+			except OSError:  # Not every log folder exists on every receiver.
+				pass
+		lines = [f"Crash logs in the log folders: {len(crashLogs)}, newest {MAX_CRASH_LOGS} shown (modification time UTC, size, path).", ""]
+		lines.extend(f"{datetime.fromtimestamp(x[0], timezone.utc).strftime('%Y-%m-%d %H:%M:%S')}  {formatSize(x[1]):>10}  {x[2]}" for x in sorted(crashLogs.values(), reverse=True)[:MAX_CRASH_LOGS])
+		self.addText("system/crash-history.txt", "\n".join(lines) + "\n")
+
 	def collect(self, directories, excludedPaths, options):
+		# The logs come before the storage scan and the configuration, so many bouquets can't push them out of the limits.
 		sections = (
 			("receiverInfo", self.collectReceiverInfo),
-			("configuration", self.collectConfiguration),
 			("systemLogs", self.collectSystemLogs),
-			("extraLogs", lambda: self.collectExtraLogs(directories, excludedPaths))
+			("extraLogs", lambda: self.collectExtraLogs(directories, excludedPaths)),
+			("receiverInfo", lambda: self.collectStorage(directories)),
+			("configuration", self.collectConfiguration)
 		)
+		for option in dict.fromkeys(x[0] for x in sections):
+			if not options.get(option, False):
+				self.addNote(option, "disabled by user")
 		for option, collectSection in sections:
 			if options.get(option, False):
 				collectSection()
-			else:
-				self.addNote(option, "disabled by user")
 		manifest = [
 			"OpenATV receiver diagnostics (current state, not necessarily the state at the time of the crash).",
 			"Known passwords, private keys and URLs were removed on the receiver.",
@@ -309,11 +487,13 @@ class Collector:
 			"Known softcam, key and password files are excluded.",
 			"Limits: 2 MiB per file, 8 MiB in total, 256 files, 12 additional logs. Nothing is truncated.",
 			"Files with lines over 16 KiB are refused by the privacy filter.",
-			"Configuration files are taken from an allowlist: settings, service and bouquet lists, XML files, black and white lists.",
+			"Configuration files are taken from an allowlist: settings, service and bouquet lists, XML files, black and white lists. Backup copies are skipped.",
+			"Storage, process and crash summaries only contain folder and process names, sizes, counts and times.",
 			"Included files:",
 			*(x["path"] for x in self.files),
 			"Omissions and notes:",
-			*self.notes
+			*self.notes,
+			*(f"{count} more notes: {reason}" for reason, count in self.droppedNotes.items())
 		]
 		self.files.append({"path": "system/manifest.txt", "content": "\n".join(manifest) + "\n"})
 		return self.files
