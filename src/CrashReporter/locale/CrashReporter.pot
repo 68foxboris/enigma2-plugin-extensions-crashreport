@@ -101,6 +101,10 @@ msgstr ""
 msgid "Current debug log"
 msgstr ""
 
+#: ../plugin.py:520
+msgid "Debug log"
+msgstr ""
+
 #: ../plugin.py:417
 msgid "Delete"
 msgstr ""

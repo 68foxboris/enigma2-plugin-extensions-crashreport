@@ -2,7 +2,7 @@ from gettext import bindtextdomain, dgettext, gettext
 from Components.International import international
 from Tools.Directories import SCOPE_PLUGINS, resolveFilename
 
-__version__ = "0.5"
+__version__ = "0.6"
 
 PluginLanguageDomain = "CrashReporter"
 PluginLanguagePath = "Extensions/CrashReporter/locale"

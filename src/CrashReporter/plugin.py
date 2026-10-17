@@ -513,9 +513,13 @@ class CrashReporterReport(QrCodeScreen):
 	def keyAttach(self):
 		def scanCallback(result):
 			crashLogs, debugLogs = result
-			choices = [(f"{_('Crash log')}: {x['name']}", ("crash", x)) for x in crashLogs[:5]]
+			choices = []
+			for crashLog in crashLogs[:5]:  # The debug log of the crashed session belongs to the crash log, not the current one.
+				logs = reportClient.selectLogs(crashLog, debugLogs, config.plugins.CrashReporter.includeDebug.value)
+				label = f"{_('Crash log')}: {crashLog['name']}" if len(logs) == 1 else f"{_('Crash log')}: {crashLog['name']} + {_('Debug log')}"  # The list cuts long lines, the confirmation shows both names.
+				choices.append((label, ("crash", logs)))
 			if debugLogs:
-				choices.append((f"{_('Current debug log')}: {debugLogs[0]['name']}", ("debug", debugLogs[0])))
+				choices.append((f"{_('Current debug log')}: {debugLogs[0]['name']}", ("debug", [debugLogs[0]])))
 			if diagnosticsFor([], reportClient.logDirectories(config.crash.debug_path.value), self.reportOptions()):
 				choices.append((_("New diagnostics with the current settings"), ("diagnostics", None)))
 			if not self.uiClosed:
@@ -523,16 +527,19 @@ class CrashReporterReport(QrCodeScreen):
 
 		def choiceCallback(choice):
 			if choice and not self.uiClosed:
-				kind, log = choice[1]
+				kind, logs = choice[1]
 				diagnostics = diagnosticsFor([], reportClient.logDirectories(config.crash.debug_path.value), self.reportOptions()) if kind == "diagnostics" else None
 				question = _("Send this to ticket #%s?") % self.report.get("issue")
 				privacy = _("Known usernames, passwords, API keys, tokens and URLs are removed before upload. Key files and known softcam files are excluded. Other personal information may remain. Reports are private and accessible to you and the OpenATV support team.")
-				text = f"{question}\n\n{choice[0]}\n\n{privacy}"
+				names = "\n".join(f"{_('Crash log') if x['kind'] == 'crash' else _('Debug log')}: {x['name']}" for x in logs) if kind == "crash" else choice[0]
+				text = f"{question}\n\n{names}\n\n{privacy}"
 				if kind == "diagnostics":  # Always English, for the developers.
 					note = "Added on the receiver: new diagnostics."
+				elif kind == "crash":
+					note = f"Added on the receiver: crash log {logs[0]['name']}" + (f" with debug log {logs[1]['name']}" if len(logs) > 1 else "")
 				else:
-					note = f"Added on the receiver: {'crash log' if kind == 'crash' else 'current debug log'} {log['name']}"
-				self.session.openWithCallback(lambda answer: answer and self.send(text=note, logs=[log] if log else [], diagnostics=diagnostics), MessageBox, text, type=MessageBox.TYPE_YESNO, default=True, windowTitle=self.getTitle())
+					note = f"Added on the receiver: current debug log {logs[0]['name']}"
+				self.session.openWithCallback(lambda answer: answer and self.send(text=note, logs=logs or [], diagnostics=diagnostics), MessageBox, text, type=MessageBox.TYPE_YESNO, default=True, windowTitle=self.getTitle())
 
 		if not self.sendRunning:
 			deferToThread(reportClient.scanLogs, reportClient.logDirectories(config.crash.debug_path.value)).addCallbacks(scanCallback, lambda failure: self.showError(failure.value))

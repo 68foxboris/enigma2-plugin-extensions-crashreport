@@ -26,7 +26,7 @@ class NoRedirect(HTTPRedirectHandler):
 
 
 class ReportClient:
-	VERSION = "0.5"  # (API) version of the report client
+	VERSION = "0.6"  # (API) version of the report client
 	SERVER = "https://bugs.opena.tv"
 	USER_AGENT = f"OpenATV-CrashReporter/{VERSION}"
 	STATE_PATH = "/etc/enigma2/crashreport-state.json"  # In the settings backup, so a restore brings the reports back.

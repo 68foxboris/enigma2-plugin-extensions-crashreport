@@ -104,6 +104,10 @@ msgstr "Crashlog"
 msgid "Current debug log"
 msgstr "Aktuelles Debug-Log"
 
+#: ../plugin.py:520
+msgid "Debug log"
+msgstr "Debug-Log"
+
 #: ../plugin.py:417
 msgid "Delete"
 msgstr "Löschen"
