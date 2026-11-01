@@ -26,7 +26,7 @@ class NoRedirect(HTTPRedirectHandler):
 
 
 class ReportClient:
-	VERSION = "0.6"  # (API) version of the report client
+	VERSION = "0.7"  # (API) version of the report client
 	SERVER = "https://bugs.opena.tv"
 	USER_AGENT = f"OpenATV-CrashReporter/{VERSION}"
 	STATE_PATH = "/etc/enigma2/crashreport-state.json"  # In the settings backup, so a restore brings the reports back.
@@ -37,6 +37,7 @@ class ReportClient:
 	MAX_UPLOAD_BYTES = 4 * 1024 * 1024  # Compressed report.
 	MAX_STATUS_BYTES = 1024 * 1024
 	MAX_NOTE_CHARS = 4000
+	CONTROL_CHARACTERS = compile(r"[\x00-\x08\x0b\x0c\x0e-\x1a\x1c-\x1f]")  # Same as the server, ESC is allowed for the colours in debug logs.
 	TRACKING_PATTERN = compile(r"(?:[0-9]{8}|[0-9A-F]{4}(?:-[0-9A-F]{4}){7})")
 	UPLOAD_ID_PATTERN = compile(r"[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}")
 	CRASH_PATTERN = compile(r"(?:-enigma\d?-crash|^enigma2_crash(?:_[\w-]+)?)\.log$")
@@ -132,12 +133,17 @@ class ReportClient:
 			if len(data) != info.st_size:
 				raise ReportError(_("The log changed while it was read. Please try again."))
 		text = data.decode("UTF-8", errors="replace")
-		if any(ord(x) < 32 and x not in "\r\n\t\x1b" for x in text):
+		if not self.isText(text):
 			raise ReportError(_("The selected file contains binary data, not a text log."))
 		name = sub(r"[^A-Za-z0-9_.-]", "_", log["name"])
 		if name.startswith(".") or ".." in name or len(name) > 115:
 			name = f"{log['kind']}.log"
 		return {"kind": log["kind"], "name": name, "content": text}
+
+	def isText(self, text):
+		# Single raw bytes, e.g. from DVB names, and the zero padding after a reset while writing don't make a log binary.
+		content = text.rstrip("\x00\t\n\v\f\r ")  # Same characters as String#rstrip on the server.
+		return bool(content) and len(self.CONTROL_CHARACTERS.findall(content)) * 100 <= len(content)  # At most 1 %.
 
 	def prepareReport(self, receiverInfo, selectedLogs, diagnostics=None, sanitize=None, client=None):
 		"""Build the report exactly as it is uploaded. cli.py uses it for --dry-run too."""

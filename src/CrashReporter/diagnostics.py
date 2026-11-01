@@ -24,6 +24,7 @@ MAX_LARGEST_FOLDERS = 25
 MAX_CRASH_LOGS = 50
 MAX_PROCESSES = 15
 BACKUP_NAME = compile(r"(?:_org|\.del|\.bak|\.old|~)$")  # Copies of bouquets and lists, they only fill the archive.
+CONTROL_CHARACTERS = compile(r"[\x00-\x08\x0b\x0c\x0e-\x1a\x1c-\x1f]")  # Same as CONTROL_CHARACTERS in client.py.
 CRASH_NAME = compile(r"(?:-enigma\d?-crash|^enigma2_crash(?:_[\w-]+)?)\.log$")  # Same as CRASH_PATTERN in client.py.
 PSEUDO_FILE_SYSTEMS = {"autofs", "binfmt_misc", "bpf", "cgroup", "cgroup2", "configfs", "debugfs", "devpts", "devtmpfs", "efivarfs", "fusectl", "hugetlbfs", "mqueue", "nfsd", "nsfs", "proc", "pstore", "rootfs", "rpc_pipefs", "securityfs", "selinuxfs", "sysfs", "tracefs"}
 NETWORK_FILE_SYSTEMS = ("9p", "ceph", "cifs", "davfs", "fuse.", "glusterfs", "nfs", "smb")  # The share can contain a server and user name, and statvfs() can hang.
@@ -133,7 +134,8 @@ def formatPercent(used, total):
 
 def decodeText(data):
 	text = data.decode("UTF-8", errors="replace")
-	if any(ord(x) < 32 and x not in "\r\n\t\x1b" for x in text):
+	content = text.rstrip("\x00\t\n\v\f\r ")  # Same check as ReportClient.isText() in client.py, but empty output is allowed.
+	if len(CONTROL_CHARACTERS.findall(content)) * 100 > len(content):
 		raise ValueError("Binary data omitted")
 	return text
 
